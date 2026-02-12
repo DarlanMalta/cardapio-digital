@@ -1,3 +1,4 @@
+//IMPORT DOS COMPONENTES NECESSÁRIOS
 import {
   StyleSheet,
   View,
@@ -5,8 +6,13 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+// IMPORT ROUTER
+import { useRouter } from "expo-router";
+
 export default function Index() {
+  const router = useRouter();
   return (
+    //ENVOLVENDO O COMPONENTE COM O BACKGROUND IMAGE - CONTAINER CENTRAL
     <ImageBackground
       source={require("../../assets/images/backgroundHome.jpg")}
       style={styles.background}
@@ -15,7 +21,10 @@ export default function Index() {
       <View style={styles.container}>
         <Text style={styles.title}>Menu Digital</Text>
         <Text style={styles.subtitle}>Bem-vindo ao nosso cardápio</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/menu")}
+        >
           <Text style={styles.buttonText}>MENU</Text>
         </TouchableOpacity>
       </View>
@@ -23,6 +32,7 @@ export default function Index() {
   );
 }
 
+//ESTILIZAÇÃO DA HOME
 const styles = StyleSheet.create({
   background: {
     flex: 1,
