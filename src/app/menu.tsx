@@ -9,7 +9,8 @@ import {
 } from "react-native";
 // IMPORT ROUTER
 import { useRouter } from "expo-router";
-
+// IMPORT COMPONENTES
+import ProductCard from "./components/ProductCard";
 export default function Menu() {
   const router = useRouter();
   return (
@@ -19,18 +20,25 @@ export default function Menu() {
         <TouchableOpacity onPress={() => router.push("/")}>
           <Text style={styles.returnButton}>Voltar</Text>
         </TouchableOpacity>
+        <Text style={styles.text}>
+          Conheça nossas Deliciosas opções de lanches e acompanhamentos!
+        </Text>
       </View>
-      <View>
-        <Text>Cardápio</Text>
-
-        <ScrollView>
-          <Text>X-Burger</Text>
-          <Text>X-Bacon</Text>
-          <Text>Batata frita</Text>
-          <Text>Coca-cola</Text>
-          <Text>Guaraná</Text>
-        </ScrollView>
-      </View>
+      <View></View>
+      <ScrollView>
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </ScrollView>
     </View>
   );
 }
@@ -63,5 +71,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 22,
     fontWeight: "bold",
+    paddingTop: 20,
+    paddingBottom: 25,
   },
 });
