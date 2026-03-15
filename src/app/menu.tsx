@@ -24,11 +24,8 @@ export default function Menu() {
           Conheça nossas Deliciosas opções de lanches e acompanhamentos!
         </Text>
       </View>
-      <View></View>
-      <ScrollView>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+
+      <ScrollView style={styles.menuList}>
         <ProductCard />
         <ProductCard />
         <ProductCard />
@@ -46,6 +43,7 @@ export default function Menu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    color: "white",
   },
   header: {
     alignItems: "center",
@@ -59,19 +57,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  containerSearch: {
-    alignItems: "center",
-    marginTop: 50,
-  },
-  textSearch: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
 
+  menuList: {
+    width: "100%",
+    paddingHorizontal: 150,
+  },
   text: {
     fontSize: 22,
     fontWeight: "bold",
     paddingTop: 20,
     paddingBottom: 25,
+    color: "#444444",
   },
 });

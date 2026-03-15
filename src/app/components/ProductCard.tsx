@@ -3,8 +3,10 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 export default function ProductCard() {
   return (
     <View style={styles.card}>
-      <Image source={{ uri: "" }} style={styles.image} />
-
+      <Image
+        source={require("../../../assets/images/Xburguer.png")}
+        style={styles.image}
+      />
       <View style={styles.info}>
         <Text style={styles.name}>X-Burger</Text>
 
@@ -23,40 +25,41 @@ export default function ProductCard() {
 }
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: "#444444",
     flexDirection: "row",
-    alignItems: "center",
-    padding: 30,
-    marginBottom: 10,
-    marginLeft: 150,
-    backgroundColor: "#c11212",
     borderRadius: 10,
-    width: 450,
+    marginBottom: 10,
+    padding: 30,
+    width: "100%",
   },
 
   image: {
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 110,
     borderRadius: 10,
+    padding: 20,
   },
 
   info: {
+    //backgroundColor: "#545415",
+    padding: 20,
     flex: 1,
-    marginLeft: 10,
-    backgroundColor: "#0843f4",
   },
 
   name: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "white",
   },
 
   description: {
+    color: "white",
     fontSize: 14,
-    color: "gray",
     marginTop: 4,
   },
 
   footer: {
+    //backgroundColor: "#952626",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -66,10 +69,11 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "white",
   },
 
   button: {
-    backgroundColor: "#ff3b30",
+    backgroundColor: "#ff6600",
     width: 30,
     height: 30,
     borderRadius: 15,
