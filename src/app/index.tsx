@@ -1,4 +1,4 @@
-//IMPORT DOS COMPONENTES NECESSÁRIOS
+//IMPORT DOS MODULOS NECESSÁRIOS
 import {
   StyleSheet,
   View,
@@ -21,6 +21,7 @@ export default function Index() {
       <View style={styles.container}>
         <Text style={styles.title}>Menu Digital</Text>
         <Text style={styles.subtitle}>Bem-vindo ao nosso cardápio</Text>
+        {/* BOTÃO DE ROTA PARA MENU */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => router.push("/menu")}
@@ -45,12 +46,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  title: { color: "white", fontSize: 48, fontWeight: "bold" },
+  title: {
+    color: "#ff5A00",
+    fontSize: 48,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 
   subtitle: {
-    color: "white",
+    color: "#ff6600",
     marginTop: 15,
     fontSize: 26,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   button: {
     marginTop: 30,

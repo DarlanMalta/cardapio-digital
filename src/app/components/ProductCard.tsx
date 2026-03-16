@@ -1,7 +1,9 @@
+//IMPORT DOS MODULOS NECESSÁRIOS
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function ProductCard() {
   return (
+    // CARD DO PRODUTO COM TODAS INFORMAÇÕES
     <View style={styles.card}>
       <Image
         source={require("../../../assets/images/Xburguer.png")}
@@ -10,7 +12,9 @@ export default function ProductCard() {
       <View style={styles.info}>
         <Text style={styles.name}>X-Burger</Text>
 
-        <Text style={styles.description}>Pão brioche, carne 180g, queijo</Text>
+        <Text style={styles.description}>
+          Pão brioche, carne 180g, queijo e bacon
+        </Text>
 
         <View style={styles.footer}>
           <Text style={styles.price}>R$ 29,90</Text>
@@ -23,21 +27,21 @@ export default function ProductCard() {
     </View>
   );
 }
+//ESTILIZAÇÃO DO PRODUCTCARD
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#444444",
     flexDirection: "row",
     borderRadius: 10,
     marginBottom: 10,
-    padding: 30,
+    padding: 15,
     width: "100%",
   },
 
   image: {
-    width: 120,
-    height: 110,
+    width: 100,
+    height: 100,
     borderRadius: 10,
-    padding: 20,
   },
 
   info: {
@@ -74,8 +78,8 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: "#ff6600",
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
