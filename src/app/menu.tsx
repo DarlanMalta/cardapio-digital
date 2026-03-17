@@ -11,6 +11,7 @@ import {
 import { useRouter } from "expo-router";
 // IMPORT COMPONENTES
 import ProductCard from "./components/ProductCard";
+import { menu } from "./data/products";
 export default function Menu() {
   const router = useRouter();
   return (
@@ -26,15 +27,9 @@ export default function Menu() {
       </View>
       {/* ÁREA DE SCROLLVIEW, CONTAINER PAI DO MENU */}
       <ScrollView contentContainerStyle={styles.menuList}>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {menu.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </ScrollView>
     </View>
   );

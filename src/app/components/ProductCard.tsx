@@ -1,23 +1,22 @@
 //IMPORT DOS MODULOS NECESSÁRIOS
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-
-export default function ProductCard() {
+import { ProductType } from "../data/products";
+//TIPANDO AS PROPS
+type Props = {
+  product: ProductType;
+};
+export default function ProductCard({ product }: Props) {
   return (
     // CARD DO PRODUTO COM TODAS INFORMAÇÕES
     <View style={styles.card}>
-      <Image
-        source={require("../../../assets/images/Xburguer.png")}
-        style={styles.image}
-      />
+      <Image source={product.image} style={styles.image} />
       <View style={styles.info}>
-        <Text style={styles.name}>X-Burger</Text>
+        <Text style={styles.name}>{product.name}</Text>
 
-        <Text style={styles.description}>
-          Pão brioche, carne 180g, queijo e bacon
-        </Text>
+        <Text style={styles.description}>{product.description}</Text>
 
         <View style={styles.footer}>
-          <Text style={styles.price}>R$ 29,90</Text>
+          <Text style={styles.price}>R${product.price.toFixed(2)}</Text>
 
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>+</Text>
