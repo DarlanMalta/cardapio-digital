@@ -43,4 +43,23 @@ export const menu: ProductType[] = [
     price: 25.9,
     image: Xburguer,
   },
+  {
+    id: 6,
+    name: "X-tudo",
+    description: "Pão brioche, frango 180g, bacon crocante, calabresa, salada",
+    price: 24.9,
+    image: Xburguer,
+  },
+  {
+    id: 7,
+    name: "X-calabresa",
+    description: "Pão brioche, calabresa, bacon crocante, queijo",
+    price: 24.9,
+    image: Xburguer,
+  },
 ];
+
+export type CartItem = {
+  product: ProductType;
+  quantity: number;
+};

@@ -1,4 +1,4 @@
-//IMPORT DOS MODULOS NECESSÁRIOS
+// IMPORT FUNCIONALIDADES
 import {
   StyleSheet,
   View,
@@ -7,13 +7,34 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-// IMPORT ROUTER
+import { useState } from "react";
 import { useRouter } from "expo-router";
-// IMPORT COMPONENTES
+import { menu, CartItem, ProductType } from "./data/products";
 import ProductCard from "./components/ProductCard";
-import { menu } from "./data/products";
-export default function Menu() {
+export default function MenuView() {
+  //STATE CARRINHO, cart RECEBERÁ UM ARRAY DO TIPO CartItem[] QUE COMEÇA VAZIO useState<TIPO>(valorInicial)
   const router = useRouter();
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const addToCart = (product: ProductType) => {
+    setCart((prevCart) => {
+      // verifica se o produto já existe no carrinho
+      const existingItem = prevCart.find(
+        (item) => item.product.id === product.id,
+      );
+
+      if (existingItem) {
+        // se já existe → aumenta a quantidade
+        return prevCart.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      }
+      console.log("Produto adicionado:", cart);
+      // se não existe → adiciona novo item
+      return [...prevCart, { product, quantity: 1 }];
+    });
+  };
   return (
     //BOTÃO DE VOLTAR, TOPO DA PÁGINA
     <View style={styles.container}>
@@ -26,11 +47,16 @@ export default function Menu() {
         </Text>
       </View>
       {/* ÁREA DE SCROLLVIEW, CONTAINER PAI DO MENU */}
+      {/* A PROP QUE O PRODUCTCARD RECEBE É UM item (PRODUTO DO ARRAY MENU), DESSA FORMA ELE TRABALHA COM OS DADOS */}
       <ScrollView contentContainerStyle={styles.menuList}>
-        {menu.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {menu.map((item) => (
+          <ProductCard key={item.id} product={item} onAddToCart={addToCart} />
         ))}
       </ScrollView>
+      {/* // ROTA DO CART */}
+      <TouchableOpacity onPress={() => router.push("/components/Cart")}>
+        <Text style={styles.cartButton}>Carrinho ({cart.length})</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -51,7 +77,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-
+  cartButton: {
+    fontSize: 18,
+    color: "white",
+    backgroundColor: "#ff6600",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    //alignItems: "center",
+    textAlign: "center",
+  },
   menuList: {
     width: "100%",
     paddingHorizontal: 15,

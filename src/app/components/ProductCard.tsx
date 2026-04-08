@@ -4,8 +4,10 @@ import { ProductType } from "../data/products";
 //TIPANDO AS PROPS
 type Props = {
   product: ProductType;
+  onAddToCart: (product: ProductType) => void;
 };
-export default function ProductCard({ product }: Props) {
+// PRODUCTCARD RECEBE UMA FUNÇÃO (ADDTOCART) E UM ITEM DO ARRAY DO MENU COMO SUAS PROPS, DESSA FORMA TRABALHA COM OS DADOS
+export default function ProductCard({ product, onAddToCart }: Props) {
   return (
     // CARD DO PRODUTO COM TODAS INFORMAÇÕES
     <View style={styles.card}>
@@ -18,7 +20,10 @@ export default function ProductCard({ product }: Props) {
         <View style={styles.footer}>
           <Text style={styles.price}>R${product.price.toFixed(2)}</Text>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onAddToCart(product)}
+          >
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
         </View>

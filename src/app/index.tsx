@@ -26,7 +26,7 @@ export default function Index() {
           style={styles.button}
           onPress={() => router.push("/menu")}
         >
-          <Text style={styles.buttonText}>MENU</Text>
+          <Text style={styles.buttonText}>CARDÁPIO</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
