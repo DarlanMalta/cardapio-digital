@@ -4,37 +4,18 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ImageBackground,
   ScrollView,
 } from "react-native";
-import { useState } from "react";
 import { useRouter } from "expo-router";
-import { menu, CartItem, ProductType } from "./data/products";
+import { menu } from "./data/products";
+import { useCart } from "./context/CartContext";
 import ProductCard from "./components/ProductCard";
 export default function MenuView() {
   //STATE CARRINHO, cart RECEBERÁ UM ARRAY DO TIPO CartItem[] QUE COMEÇA VAZIO useState<TIPO>(valorInicial)
   const router = useRouter();
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const addToCart = (product: ProductType) => {
-    setCart((prevCart) => {
-      // verifica se o produto já existe no carrinho
-      const existingItem = prevCart.find(
-        (item) => item.product.id === product.id,
-      );
 
-      if (existingItem) {
-        // se já existe → aumenta a quantidade
-        return prevCart.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      }
-      console.log("Produto adicionado:", cart);
-      // se não existe → adiciona novo item
-      return [...prevCart, { product, quantity: 1 }];
-    });
-  };
+  const { cart, addToCart } = useCart();
+
   return (
     //BOTÃO DE VOLTAR, TOPO DA PÁGINA
     <View style={styles.container}>
@@ -54,7 +35,7 @@ export default function MenuView() {
         ))}
       </ScrollView>
       {/* // ROTA DO CART */}
-      <TouchableOpacity onPress={() => router.push("/components/Cart")}>
+      <TouchableOpacity onPress={() => router.push("/Cart")}>
         <Text style={styles.cartButton}>Carrinho ({cart.length})</Text>
       </TouchableOpacity>
     </View>
@@ -64,6 +45,7 @@ export default function MenuView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
   header: {
     alignItems: "center",
@@ -81,11 +63,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     backgroundColor: "#ff6600",
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    //alignItems: "center",
     textAlign: "center",
+    margin: 10,
   },
   menuList: {
     width: "100%",
