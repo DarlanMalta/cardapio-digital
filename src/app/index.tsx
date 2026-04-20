@@ -14,7 +14,7 @@ export default function Index() {
   return (
     //ENVOLVENDO O COMPONENTE COM O BACKGROUND IMAGE - CONTAINER CENTRAL
     <ImageBackground
-      source={require("../../assets/images/backgroundHome.jpg")}
+      source={require("../../assets/images/BackGround.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: "#ff5A00",
+    color: "#ff6600",
     fontSize: 48,
     fontWeight: "bold",
     textAlign: "center",

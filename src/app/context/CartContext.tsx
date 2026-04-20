@@ -3,17 +3,26 @@ import { createContext, useContext, useState, ReactNode } from "react";
 // IMPORTAMOS NOSSOS TIPOS JÁ EXISTENTES
 import { ProductType, CartItem } from "../data/products";
 
+export function useCart() {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart deve ser usado dentro do CartProvider");
+  }
+  return context;
+}
+
 // 1. DEFININDO A TIPAGEM DOS DADOS DO CONTEXT
 
 type CartContextType = {
   cart: CartItem[];
   addToCart: (product: ProductType) => void;
   removeFromCart: (productId: number) => void;
-  clearCart: () => void; // função de limpar tudo
+  increaseQuantity: (productId: number) => void; // ← novo
+  decreaseQuantity: (productId: number) => void; // ← novo
+  clearCart: () => void;
 };
 
-// 2. CRIANDO O CONTEXT
-// O undefined inicial é só o valor padrão antes do Provider assumir
+// 2. CRIANDO O CONTEXT   // undefined valor padrão
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // 3. CRIANDO O PROVIDER
@@ -55,26 +64,51 @@ export function CartProvider({ children }: CartProviderProps) {
   const clearCart = () => {
     setCart([]);
   };
+  // FUNÇÃO: aumentar quantidade de um item
+  const increaseQuantity = (productId: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item,
+      ),
+    );
+  };
 
-  // O Provider "fornece" os dados para todos os filhos (children)
-  // Qualquer tela dentro dele pode acessar cart, addToCart, removeFromCart e clearCart
+  // FUNÇÃO: diminuir quantidade — se chegar a 0, remove o item
+  const decreaseQuantity = (productId: number) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find(
+        (item) => item.product.id === productId,
+      );
+
+      // se a quantidade for 1 → remove o item do array
+      if (existingItem && existingItem.quantity === 1) {
+        return prevCart.filter((item) => item.product.id !== productId);
+      }
+
+      // se for maior que 1 → só diminui
+      return prevCart.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: item.quantity - 1 }
+          : item,
+      );
+    });
+  };
+  // O Provider "fornece" os dados(funções/state) para todos os filhos (children)
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>
   );
-}
-
-// Em vez de escrever useContext(CartContext) em toda tela,
-// criamos um atalho chamado useCart()
-// Além disso, ele verifica se está sendo usado dentro do Provider
-// e lança um erro claro caso não esteja — facilita muito o debug
-export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart deve ser usado dentro do CartProvider");
-  }
-  return context;
 }
