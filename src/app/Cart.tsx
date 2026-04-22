@@ -72,7 +72,12 @@ export default function Cart() {
         <View style={styles.footer}>
           {/* TOTAL */}
           <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
-
+          <TouchableOpacity
+            style={styles.checkoutButton}
+            onPress={() => router.push("/checkout")}
+          >
+            <Text style={styles.checkoutButtonText}>Confirmar Pedido</Text>
+          </TouchableOpacity>
           {/* LIMPAR CARRINHO */}
           <TouchableOpacity style={styles.clearButton} onPress={clearCart}>
             <Text style={styles.clearButtonText}>Limpar carrinho</Text>
@@ -111,7 +116,6 @@ const styles = StyleSheet.create({
   buttonRoute: {
     fontSize: 14,
     fontWeight: "bold",
-
     color: "white",
     backgroundColor: "#ff6600",
     paddingVertical: 8,
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     elevation: 4,
-    shadowColor: "#000",
+    shadowColor: "#0037ff",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     alignItems: "center",
@@ -144,15 +148,26 @@ const styles = StyleSheet.create({
   total: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000000",
   },
   clearButton: {
-    backgroundColor: "#ff3333",
-    paddingVertical: 10,
-    paddingHorizontal: 24,
+    backgroundColor: "#ff6600",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     borderRadius: 8,
   },
   clearButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
+  checkoutButton: {
+    backgroundColor: "#ff6600",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+  },
+  checkoutButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
