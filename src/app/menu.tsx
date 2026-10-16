@@ -1,20 +1,16 @@
 // IMPORT FUNCIONALIDADES
+import { useRouter } from "expo-router";
 import {
+  ScrollView,
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { menu } from "./data/products";
-import { useCart } from "./context/CartContext";
 import ProductCard from "./components/ProductCard";
+import { menu } from "./data/products";
 export default function MenuView() {
-  //STATE CARRINHO, cart RECEBERÁ UM ARRAY DO TIPO CartItem[] QUE COMEÇA VAZIO useState<TIPO>(valorInicial)
   const router = useRouter();
-
-  const { cart, addToCart } = useCart();
 
   return (
     //BOTÃO DE VOLTAR, TOPO DA PÁGINA
@@ -31,13 +27,9 @@ export default function MenuView() {
       {/* A PROP QUE O PRODUCTCARD RECEBE É UM item (PRODUTO DO ARRAY MENU), DESSA FORMA ELE TRABALHA COM OS DADOS */}
       <ScrollView contentContainerStyle={styles.menuList}>
         {menu.map((item) => (
-          <ProductCard key={item.id} product={item} onAddToCart={addToCart} />
+          <ProductCard key={item.id} product={item} />
         ))}
       </ScrollView>
-      {/* // ROTA DO CART */}
-      <TouchableOpacity onPress={() => router.push("/Cart")}>
-        <Text style={styles.cartButton}>Carrinho ({cart.length})</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -59,16 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  cartButton: {
-    fontSize: 18,
-    color: "white",
-    backgroundColor: "#ff6600",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    textAlign: "center",
-    margin: 10,
-  },
+
   menuList: {
     width: "100%",
     paddingHorizontal: 15,

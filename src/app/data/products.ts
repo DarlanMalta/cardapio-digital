@@ -1,15 +1,11 @@
-import burguerImage from "../../../assets/images/Xburguer.png";
 import DrinkImage from "../../../assets/images/Bebidas.png";
+import burguerImage from "../../../assets/images/Xburguer.png";
 export type ProductType = {
   id: number;
   name: string;
   description: string;
   price: number;
   image: any;
-};
-export type CartItem = {
-  product: ProductType;
-  quantity: number;
 };
 
 export const menu: ProductType[] = [

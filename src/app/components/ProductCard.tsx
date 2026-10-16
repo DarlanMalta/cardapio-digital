@@ -1,13 +1,11 @@
 //IMPORT DOS MODULOS NECESSÁRIOS
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { ProductType } from "../data/products";
 //TIPANDO AS PROPS
 type Props = {
   product: ProductType;
-  onAddToCart: (product: ProductType) => void;
 };
-// PRODUCTCARD RECEBE UMA FUNÇÃO (ADDTOCART) E UM ITEM DO ARRAY DO MENU COMO SUAS PROPS, DESSA FORMA TRABALHA COM OS DADOS
-export default function ProductCard({ product, onAddToCart }: Props) {
+export default function ProductCard({ product }: Props) {
   return (
     // CARD DO PRODUTO COM TODAS INFORMAÇÕES
     <View style={styles.card}>
@@ -19,13 +17,6 @@ export default function ProductCard({ product, onAddToCart }: Props) {
 
         <View style={styles.footer}>
           <Text style={styles.price}>R${product.price.toFixed(2)}</Text>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onAddToCart(product)}
-          >
-            <Text style={styles.buttonText}>+</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -49,7 +40,6 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    //backgroundColor: "#545415",
     padding: 20,
     flex: 1,
   },
@@ -67,9 +57,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    //backgroundColor: "#952626",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
   },
@@ -78,20 +66,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
-  },
-
-  button: {
-    backgroundColor: "#ff6600",
-    width: 40,
-    height: 40,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });
