@@ -1,14 +1,13 @@
+import { useRouter } from "expo-router";
 import {
-  View,
+  FlatList,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  FlatList,
+  View
 } from "react-native";
-import { useRouter } from "expo-router";
-import { useCart } from "./context/CartContext";
 import CartItemCard from "./components/CartItemCard";
+import { useCart } from "./context/CartContext";
 
 export default function Cart() {
   const router = useRouter();
@@ -72,12 +71,7 @@ export default function Cart() {
         <View style={styles.footer}>
           {/* TOTAL */}
           <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
-          <TouchableOpacity
-            style={styles.checkoutButton}
-            onPress={() => router.push("/checkout")}
-          >
-            <Text style={styles.checkoutButtonText}>Confirmar Pedido</Text>
-          </TouchableOpacity>
+
           {/* LIMPAR CARRINHO */}
           <TouchableOpacity style={styles.clearButton} onPress={clearCart}>
             <Text style={styles.clearButtonText}>Limpar carrinho</Text>
@@ -160,16 +154,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 12,
-  },
-  checkoutButton: {
-    backgroundColor: "#ff6600",
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-  },
-  checkoutButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
   },
 });
