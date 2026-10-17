@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import ProductCard from "./components/ProductCard";
-import { menu } from "./data/products";
+import { products } from "./data/products";
 
 export default function Index() {
   return (
@@ -12,7 +12,7 @@ export default function Index() {
       </View>
 
       <ScrollView contentContainerStyle={styles.menuList}>
-        {menu.map((item) => (
+        {products.map((item) => (
           <ProductCard key={item.id} product={item} />
         ))}
       </ScrollView>
