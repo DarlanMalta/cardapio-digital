@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import ProductCard from "./components/ProductCard";
-import { products } from "./data/products";
+import { categories, products } from "./data/products";
 
 export default function Index() {
   return (
@@ -12,9 +12,21 @@ export default function Index() {
       </View>
 
       <ScrollView contentContainerStyle={styles.menuList}>
-        {products.map((item) => (
-          <ProductCard key={item.id} product={item} />
-        ))}
+        {categories.map((category) => {
+          const categoryProducts = products.filter(
+            (product) => product.category === category.id,
+          );
+
+          return (
+            <View key={category.id} style={styles.categorySection}>
+              <Text style={styles.categoryTitle}>{category.label}</Text>
+
+              {categoryProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -25,14 +37,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+
   header: {
     alignItems: "center",
     paddingTop: 40,
   },
+
   menuList: {
     width: "100%",
     paddingHorizontal: 15,
+    paddingBottom: 24,
   },
+
+  categorySection: {
+    width: "100%",
+    marginBottom: 24,
+  },
+
+  categoryTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#444444",
+    marginBottom: 12,
+  },
+
   text: {
     fontSize: 22,
     fontWeight: "bold",
