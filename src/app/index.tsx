@@ -1,10 +1,30 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useRef } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import ProductCard from "./components/ProductCard";
-import { categories, products } from "./data/products";
+import { categories, products, type CategoryId } from "./data/products";
+
+type CategoryPositions = Partial<Record<CategoryId, number>>;
 
 export default function Index() {
+  const menuScrollRef = useRef<ScrollView>(null);
+  const menuListPosition = useRef(0);
+  const categoryPositions = useRef<CategoryPositions>({});
+
+  const scrollToCategory = (categoryId: CategoryId) => {
+    const categoryPosition = categoryPositions.current[categoryId];
+
+    if (categoryPosition === undefined) {
+      return;
+    }
+
+    menuScrollRef.current?.scrollTo({
+      y: menuListPosition.current + categoryPosition,
+      animated: true,
+    });
+  };
   return (
     <ScrollView
+      ref={menuScrollRef}
       style={styles.container}
       contentContainerStyle={styles.pageContent}
       showsVerticalScrollIndicator={false}
@@ -22,21 +42,42 @@ export default function Index() {
           contentContainerStyle={styles.categoryNavigationContent}
         >
           {categories.map((category) => (
-            <View key={category.id} style={styles.categoryChip}>
+            <Pressable
+              key={category.id}
+              onPress={() => scrollToCategory(category.id)}
+              accessibilityRole="button"
+              accessibilityLabel={`Ir para ${category.label}`}
+              style={({ pressed }) => [
+                styles.categoryChip,
+                pressed && styles.categoryChipPressed,
+              ]}
+            >
               <Text style={styles.categoryChipText}>{category.label}</Text>
-            </View>
+            </Pressable>
           ))}
         </ScrollView>
       </View>
 
-      <View style={styles.menuList}>
+      <View
+        style={styles.menuList}
+        onLayout={(event) => {
+          menuListPosition.current = event.nativeEvent.layout.y;
+        }}
+      >
         {categories.map((category) => {
           const categoryProducts = products.filter(
             (product) => product.category === category.id,
           );
 
           return (
-            <View key={category.id} style={styles.categorySection}>
+            <View
+              key={category.id}
+              style={styles.categorySection}
+              onLayout={(event) => {
+                categoryPositions.current[category.id] =
+                  event.nativeEvent.layout.y;
+              }}
+            >
               <Text style={styles.categoryTitle}>{category.label}</Text>
 
               {categoryProducts.map((product) => (
@@ -74,13 +115,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     gap: 10,
   },
-
   categoryChip: {
     borderWidth: 1,
     borderColor: "#444444",
     borderRadius: 999,
     paddingVertical: 10,
     paddingHorizontal: 16,
+  },
+
+  categoryChipPressed: {
+    opacity: 0.6,
   },
 
   categoryChipText: {
