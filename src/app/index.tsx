@@ -4,14 +4,32 @@ import { categories, products } from "./data/products";
 
 export default function Index() {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.pageContent}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.header}>
         <Text style={styles.text}>
           Conheça nossas Deliciosas opções de lanches e acompanhamentos!
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.menuList}>
+      <View style={styles.categoryNavigation}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryNavigationContent}
+        >
+          {categories.map((category) => (
+            <View key={category.id} style={styles.categoryChip}>
+              <Text style={styles.categoryChipText}>{category.label}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={styles.menuList}>
         {categories.map((category) => {
           const categoryProducts = products.filter(
             (product) => product.category === category.id,
@@ -27,15 +45,18 @@ export default function Index() {
             </View>
           );
         })}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+  },
+
+  pageContent: {
+    width: "100%",
   },
 
   header: {
@@ -43,8 +64,34 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
 
+  categoryNavigation: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    paddingVertical: 12,
+  },
+
+  categoryNavigationContent: {
+    paddingHorizontal: 15,
+    gap: 10,
+  },
+
+  categoryChip: {
+    borderWidth: 1,
+    borderColor: "#444444",
+    borderRadius: 999,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+
+  categoryChipText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#444444",
+  },
+
   menuList: {
     width: "100%",
+    paddingTop: 24,
     paddingHorizontal: 15,
     paddingBottom: 24,
   },
