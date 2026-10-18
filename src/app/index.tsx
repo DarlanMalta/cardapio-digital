@@ -8,6 +8,7 @@ type CategoryPositions = Partial<Record<CategoryId, number>>;
 export default function Index() {
   const menuScrollRef = useRef<ScrollView>(null);
   const menuListPosition = useRef(0);
+  const categoryNavigationHeight = useRef(0);
   const categoryPositions = useRef<CategoryPositions>({});
 
   const scrollToCategory = (categoryId: CategoryId) => {
@@ -17,17 +18,24 @@ export default function Index() {
       return;
     }
 
+    const scrollPosition =
+      menuListPosition.current +
+      categoryPosition -
+      categoryNavigationHeight.current;
+
     menuScrollRef.current?.scrollTo({
-      y: menuListPosition.current + categoryPosition,
+      y: Math.max(0, scrollPosition),
       animated: true,
     });
   };
+
   return (
     <ScrollView
       ref={menuScrollRef}
       style={styles.container}
       contentContainerStyle={styles.pageContent}
       showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[1]}
     >
       <View style={styles.header}>
         <Text style={styles.text}>
@@ -35,7 +43,12 @@ export default function Index() {
         </Text>
       </View>
 
-      <View style={styles.categoryNavigation}>
+      <View
+        style={styles.categoryNavigation}
+        onLayout={(event) => {
+          categoryNavigationHeight.current = event.nativeEvent.layout.height;
+        }}
+      >
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -109,12 +122,14 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#ffffff",
     paddingVertical: 12,
+    zIndex: 1,
   },
 
   categoryNavigationContent: {
     paddingHorizontal: 15,
     gap: 10,
   },
+
   categoryChip: {
     borderWidth: 1,
     borderColor: "#444444",
