@@ -1,7 +1,8 @@
 import type { ImageSourcePropType } from "react-native";
 
-import drinkImage from "../../../assets/images/Bebidas.png";
-import burgerImage from "../../../assets/images/Xburguer.png";
+import sideImage from "../../assets/images/Acompanhamentos.jpg";
+import drinkImage from "../../assets/images/Bebidas.png";
+import burgerImage from "../../assets/images/Xburguer.png";
 
 export const categories = [
   { id: "hamburgers", label: "Hambúrgueres" },
@@ -42,7 +43,7 @@ export const products: ProductType[] = [
     name: "Batata Frita",
     description: "Porção de batata frita crocante",
     price: 15.9,
-    image: burgerImage,
+    image: sideImage,
     category: "acompanhamentos",
   },
   {
@@ -58,12 +59,12 @@ export const products: ProductType[] = [
     name: "Nuggets",
     description: "Porção de nuggets frita crocante",
     price: 25.9,
-    image: burgerImage,
+    image: sideImage,
     category: "acompanhamentos",
   },
   {
     id: 6,
-    name: "X-tudo",
+    name: "X-Tudo",
     description: "Pão brioche, frango 180g, bacon crocante, calabresa, salada",
     price: 24.9,
     image: burgerImage,
@@ -71,7 +72,7 @@ export const products: ProductType[] = [
   },
   {
     id: 7,
-    name: "X-calabresa",
+    name: "X-Calabresa",
     description: "Pão brioche, calabresa, bacon crocante, queijo",
     price: 24.9,
     image: burgerImage,
@@ -79,33 +80,32 @@ export const products: ProductType[] = [
   },
   {
     id: 8,
-    name: "Coca-Cola lata",
-    description: "Coca-cola lata 350ml",
+    name: "Coca-Cola Lata",
+    description: "Coca-Cola lata 350 ml",
     price: 5.9,
     image: drinkImage,
     category: "bebidas",
   },
   {
     id: 9,
-    name: "Coca-Cola 1 litro",
-    description: "Coca-cola 1000ml",
+    name: "Coca-Cola 1 Litro",
+    description: "Coca-Cola 1 litro",
     price: 9.9,
     image: drinkImage,
     category: "bebidas",
   },
-
   {
     id: 10,
-    name: "Guaraná lata",
-    description: "Guaraná lata 350ml",
+    name: "Guaraná Lata",
+    description: "Guaraná lata 350 ml",
     price: 5.9,
     image: drinkImage,
     category: "bebidas",
   },
   {
     id: 11,
-    name: "Guaraná litro",
-    description: "Guaraná lata 1000ml",
+    name: "Guaraná 1 Litro",
+    description: "Guaraná 1 litro",
     price: 9.9,
     image: drinkImage,
     category: "bebidas",

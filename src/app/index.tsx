@@ -8,8 +8,11 @@ import {
   Text,
   View,
 } from "react-native";
-import ProductCard from "./components/ProductCard";
-import { categories, products, type CategoryId } from "./data/products";
+
+import { colors, layout } from "../theme";
+import BrandHero from "../components/BrandHero";
+import ProductCard from "../components/ProductCard";
+import { categories, products, type CategoryId } from "../data/products";
 
 type CategoryPositions = Partial<Record<CategoryId, number>>;
 
@@ -29,6 +32,8 @@ export default function Index() {
       return;
     }
 
+    setActiveCategory(categoryId);
+
     const scrollPosition =
       menuListPosition.current +
       categoryPosition -
@@ -43,8 +48,17 @@ export default function Index() {
   const updateActiveCategory = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+    const reachedEnd =
+      contentOffset.y + layoutMeasurement.height >= contentSize.height - 16;
+
+    if (reachedEnd) {
+      setActiveCategory(categories[categories.length - 1].id);
+      return;
+    }
+
     const currentPosition =
-      event.nativeEvent.contentOffset.y +
+      contentOffset.y +
       categoryNavigationHeight.current -
       menuListPosition.current +
       8;
@@ -72,11 +86,7 @@ export default function Index() {
       onScroll={updateActiveCategory}
       scrollEventThrottle={16}
     >
-      <View style={styles.header}>
-        <Text style={styles.text}>
-          Conheça nossas Deliciosas opções de lanches e acompanhamentos!
-        </Text>
-      </View>
+      <BrandHero />
 
       <View
         style={styles.categoryNavigation}
@@ -84,35 +94,41 @@ export default function Index() {
           categoryNavigationHeight.current = event.nativeEvent.layout.height;
         }}
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoryNavigationContent}
-        >
-          {categories.map((category) => (
-            <Pressable
-              key={category.id}
-              onPress={() => scrollToCategory(category.id)}
-              accessibilityRole="button"
-              accessibilityLabel={`Ir para ${category.label}`}
-              style={({ pressed }) => [
-                styles.categoryChip,
-                activeCategory === category.id && styles.categoryChipActive,
-                pressed && styles.categoryChipPressed,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.categoryChipText,
-                  activeCategory === category.id &&
-                    styles.categoryChipTextActive,
-                ]}
-              >
-                {category.label}
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
+        <View style={styles.categoryNavigationFrame}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryNavigationContent}
+          >
+            {categories.map((category) => {
+              const isActive = activeCategory === category.id;
+
+              return (
+                <Pressable
+                  key={category.id}
+                  onPress={() => scrollToCategory(category.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Ir para ${category.label}`}
+                  accessibilityState={{ selected: isActive }}
+                  style={({ pressed }) => [
+                    styles.categoryChip,
+                    isActive && styles.categoryChipActive,
+                    pressed && styles.categoryChipPressed,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.categoryChipText,
+                      isActive && styles.categoryChipTextActive,
+                    ]}
+                  >
+                    {category.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
       </View>
 
       <View
@@ -121,10 +137,19 @@ export default function Index() {
           menuListPosition.current = event.nativeEvent.layout.y;
         }}
       >
-        {categories.map((category) => {
+        <View style={styles.menuIntroduction}>
+          <Text style={styles.menuEyebrow}>NOSSO CARDÁPIO</Text>
+          <Text style={styles.menuTitle}>Escolha seu próximo favorito.</Text>
+          <Text style={styles.menuDescription}>
+            Navegue pelas categorias e conheça as opções disponíveis.
+          </Text>
+        </View>
+
+        {categories.map((category, categoryIndex) => {
           const categoryProducts = products.filter(
             (product) => product.category === category.id,
           );
+          const itemLabel = categoryProducts.length === 1 ? "item" : "itens";
 
           return (
             <View
@@ -135,14 +160,45 @@ export default function Index() {
                   event.nativeEvent.layout.y;
               }}
             >
-              <Text style={styles.categoryTitle}>{category.label}</Text>
+              <View style={styles.categoryHeading}>
+                <View style={styles.categoryTitleGroup}>
+                  <Text style={styles.categoryIndex}>
+                    {String(categoryIndex + 1).padStart(2, "0")}
+                  </Text>
+                  <Text style={styles.categoryTitle}>{category.label}</Text>
+                </View>
 
-              {categoryProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+                <Text style={styles.categoryCount}>
+                  {categoryProducts.length} {itemLabel}
+                </Text>
+              </View>
+
+              <View style={styles.productGrid}>
+                {categoryProducts.map((product) => (
+                  <View
+                    key={product.id}
+                    style={styles.productSlot}
+                  >
+                    <ProductCard product={product} />
+                  </View>
+                ))}
+              </View>
             </View>
           );
         })}
+      </View>
+
+      <View style={styles.footer}>
+        <View style={styles.footerContent}>
+          <View>
+            <Text style={styles.footerBrand}>NA BRASA</Text>
+            <Text style={styles.footerSlogan}>O 01 DA CITY</Text>
+          </View>
+
+          <Text style={styles.footerNote}>
+            Cardápio demonstrativo • imagens e informações provisórias
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -151,80 +207,182 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
-
   pageContent: {
     width: "100%",
+    backgroundColor: colors.background,
   },
-
-  header: {
-    alignItems: "center",
-    paddingTop: 40,
-  },
-
   categoryNavigation: {
     width: "100%",
-    backgroundColor: "#ffffff",
-    paddingVertical: 12,
-    zIndex: 1,
+    zIndex: 10,
+    backgroundColor: "rgba(9, 9, 9, 0.98)",
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
-
+  categoryNavigationFrame: {
+    width: "100%",
+    maxWidth: layout.contentMaxWidth,
+    alignSelf: "center",
+  },
   categoryNavigationContent: {
-    paddingHorizontal: 15,
+    minHeight: 68,
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 11,
     gap: 10,
   },
-
   categoryChip: {
-    borderWidth: 1,
-    borderColor: "#444444",
-    borderRadius: 999,
+    minHeight: 44,
+    justifyContent: "center",
     paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 17,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 999,
   },
-
-  categoryChipPressed: {
-    opacity: 0.6,
-  },
-
   categoryChipActive: {
-    backgroundColor: "#444444",
+    backgroundColor: colors.accent,
+    borderColor: colors.accentStrong,
   },
-
+  categoryChipPressed: {
+    opacity: 0.68,
+  },
   categoryChipText: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#444444",
+    color: colors.textMuted,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "700",
   },
-
   categoryChipTextActive: {
-    color: "#ffffff",
+    color: colors.white,
   },
-
   menuList: {
     width: "100%",
-    paddingTop: 24,
-    paddingHorizontal: 15,
-    paddingBottom: 24,
+    maxWidth: layout.contentMaxWidth,
+    alignSelf: "center",
+    paddingTop: 56,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
   },
-
+  menuIntroduction: {
+    maxWidth: 620,
+    marginBottom: 58,
+  },
+  menuEyebrow: {
+    color: colors.accentStrong,
+    fontSize: 11,
+    lineHeight: 15,
+    fontWeight: "800",
+    letterSpacing: 2.4,
+  },
+  menuTitle: {
+    marginTop: 9,
+    color: colors.text,
+    fontSize: 34,
+    lineHeight: 40,
+    fontWeight: "900",
+    letterSpacing: -1,
+  },
+  menuDescription: {
+    marginTop: 10,
+    color: colors.textMuted,
+    fontSize: 15,
+    lineHeight: 23,
+  },
   categorySection: {
     width: "100%",
-    marginBottom: 24,
+    marginBottom: 68,
   },
-
+  categoryHeading: {
+    marginBottom: 20,
+    paddingBottom: 15,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    gap: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  categoryTitleGroup: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "baseline",
+    gap: 11,
+  },
+  categoryIndex: {
+    color: colors.accentStrong,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+  },
   categoryTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#444444",
-    marginBottom: 12,
+    flexShrink: 1,
+    color: colors.text,
+    fontSize: 25,
+    lineHeight: 30,
+    fontWeight: "900",
+    letterSpacing: -0.5,
   },
-
-  text: {
-    fontSize: 22,
-    fontWeight: "bold",
-    paddingTop: 20,
-    paddingBottom: 25,
-    color: "#444444",
-    textAlign: "center",
+  categoryCount: {
+    color: colors.textMuted,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "600",
+  },
+  productGrid: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    columnGap: 16,
+    rowGap: 16,
+  },
+  productSlot: {
+    minWidth: 280,
+    maxWidth: 530,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 430,
+  },
+  footer: {
+    width: "100%",
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  footerContent: {
+    width: "100%",
+    maxWidth: layout.contentMaxWidth,
+    alignSelf: "center",
+    paddingVertical: 36,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 18,
+  },
+  footerBrand: {
+    color: colors.text,
+    fontSize: 17,
+    lineHeight: 20,
+    fontWeight: "900",
+    letterSpacing: 2.2,
+  },
+  footerSlogan: {
+    marginTop: 4,
+    color: colors.accentStrong,
+    fontSize: 11,
+    lineHeight: 14,
+    fontWeight: "800",
+    letterSpacing: 1.6,
+  },
+  footerNote: {
+    maxWidth: 360,
+    color: colors.textMuted,
+    fontSize: 12,
+    lineHeight: 18,
   },
 });
