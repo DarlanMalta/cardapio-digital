@@ -1,11 +1,22 @@
-import { useRef } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import ProductCard from "./components/ProductCard";
 import { categories, products, type CategoryId } from "./data/products";
 
 type CategoryPositions = Partial<Record<CategoryId, number>>;
 
 export default function Index() {
+  const [activeCategory, setActiveCategory] = useState<CategoryId>(
+    categories[0].id,
+  );
   const menuScrollRef = useRef<ScrollView>(null);
   const menuListPosition = useRef(0);
   const categoryNavigationHeight = useRef(0);
@@ -29,6 +40,28 @@ export default function Index() {
     });
   };
 
+  const updateActiveCategory = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    const currentPosition =
+      event.nativeEvent.contentOffset.y +
+      categoryNavigationHeight.current -
+      menuListPosition.current +
+      8;
+
+    const visibleCategory = [...categories]
+      .reverse()
+      .find(
+        (category) =>
+          (categoryPositions.current[category.id] ?? Number.POSITIVE_INFINITY) <=
+          currentPosition,
+      );
+
+    if (visibleCategory && visibleCategory.id !== activeCategory) {
+      setActiveCategory(visibleCategory.id);
+    }
+  };
+
   return (
     <ScrollView
       ref={menuScrollRef}
@@ -36,6 +69,8 @@ export default function Index() {
       contentContainerStyle={styles.pageContent}
       showsVerticalScrollIndicator={false}
       stickyHeaderIndices={[1]}
+      onScroll={updateActiveCategory}
+      scrollEventThrottle={16}
     >
       <View style={styles.header}>
         <Text style={styles.text}>
@@ -62,10 +97,19 @@ export default function Index() {
               accessibilityLabel={`Ir para ${category.label}`}
               style={({ pressed }) => [
                 styles.categoryChip,
+                activeCategory === category.id && styles.categoryChipActive,
                 pressed && styles.categoryChipPressed,
               ]}
             >
-              <Text style={styles.categoryChipText}>{category.label}</Text>
+              <Text
+                style={[
+                  styles.categoryChipText,
+                  activeCategory === category.id &&
+                    styles.categoryChipTextActive,
+                ]}
+              >
+                {category.label}
+              </Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -142,10 +186,18 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
 
+  categoryChipActive: {
+    backgroundColor: "#444444",
+  },
+
   categoryChipText: {
     fontSize: 15,
     fontWeight: "600",
     color: "#444444",
+  },
+
+  categoryChipTextActive: {
+    color: "#ffffff",
   },
 
   menuList: {
