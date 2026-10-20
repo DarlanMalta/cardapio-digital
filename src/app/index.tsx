@@ -1,18 +1,18 @@
 import { useRef, useState } from "react";
 import {
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
 } from "react-native";
 
-import { colors, layout } from "../theme";
 import BrandHero from "../components/BrandHero";
 import ProductCard from "../components/ProductCard";
 import { categories, products, type CategoryId } from "../data/products";
+import { colors, layout } from "../theme";
 
 type CategoryPositions = Partial<Record<CategoryId, number>>;
 
@@ -67,8 +67,8 @@ export default function Index() {
       .reverse()
       .find(
         (category) =>
-          (categoryPositions.current[category.id] ?? Number.POSITIVE_INFINITY) <=
-          currentPosition,
+          (categoryPositions.current[category.id] ??
+            Number.POSITIVE_INFINITY) <= currentPosition,
       );
 
     if (visibleCategory && visibleCategory.id !== activeCategory) {
@@ -139,7 +139,7 @@ export default function Index() {
       >
         <View style={styles.menuIntroduction}>
           <Text style={styles.menuEyebrow}>NOSSO CARDÁPIO</Text>
-          <Text style={styles.menuTitle}>Escolha seu próximo favorito.</Text>
+          <Text style={styles.menuTitle}>Qual vai ser o de hoje?</Text>
           <Text style={styles.menuDescription}>
             Navegue pelas categorias e conheça as opções disponíveis.
           </Text>
@@ -175,10 +175,7 @@ export default function Index() {
 
               <View style={styles.productGrid}>
                 {categoryProducts.map((product) => (
-                  <View
-                    key={product.id}
-                    style={styles.productSlot}
-                  >
+                  <View key={product.id} style={styles.productSlot}>
                     <ProductCard product={product} />
                   </View>
                 ))}
@@ -226,8 +223,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   categoryNavigationContent: {
+    flexGrow: 1,
     minHeight: 68,
     alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
     paddingVertical: 11,
     gap: 10,
@@ -267,7 +266,10 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   menuIntroduction: {
+    width: "100%",
     maxWidth: 620,
+    alignSelf: "center",
+    alignItems: "center",
     marginBottom: 58,
   },
   menuEyebrow: {
@@ -276,6 +278,7 @@ const styles = StyleSheet.create({
     lineHeight: 15,
     fontWeight: "800",
     letterSpacing: 2.4,
+    textAlign: "center",
   },
   menuTitle: {
     marginTop: 9,
@@ -284,12 +287,15 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     fontWeight: "900",
     letterSpacing: -1,
+    textAlign: "center",
   },
   menuDescription: {
+    maxWidth: 560,
     marginTop: 10,
     color: colors.textMuted,
     fontSize: 15,
     lineHeight: 23,
+    textAlign: "center",
   },
   categorySection: {
     width: "100%",

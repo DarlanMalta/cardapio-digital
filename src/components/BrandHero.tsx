@@ -1,10 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 import burgerImage from "../../assets/images/Xburguer.png";
 import { colors, layout } from "../theme";
@@ -16,11 +11,7 @@ export default function BrandHero() {
         <View style={styles.heroCopy}>
           <View style={styles.brandRow}>
             <View style={styles.brandMark}>
-              <MaterialCommunityIcons
-                name="fire"
-                size={25}
-                color={colors.white}
-              />
+              <Text style={styles.brandMonogram}>NB</Text>
             </View>
 
             <View>
@@ -29,14 +20,10 @@ export default function BrandHero() {
             </View>
           </View>
 
-          <Text style={styles.eyebrow}>DIRETO DA BRASA PARA A CITY</Text>
+          <Text style={styles.eyebrow}>SABOR DE VERDADE, DIRETO DA BRASA.</Text>
           <Text style={styles.title}>
             O 01 DA{`\n`}
             <Text style={styles.titleAccent}>CITY.</Text>
-          </Text>
-          <Text style={styles.description}>
-            Explore os sabores da Na Brasa em um cardápio direto, visual e
-            feito para abrir o apetite.
           </Text>
 
           <View style={styles.metaRow}>
@@ -74,7 +61,7 @@ export default function BrandHero() {
           />
           <View style={styles.heroTag}>
             <View style={styles.heroTagDot} />
-            <Text style={styles.heroTagText}>SABOR DE RESPEITO</Text>
+            <Text style={styles.heroTagText}>FEITO PARA VOCÊ</Text>
           </View>
         </View>
       </View>
@@ -110,6 +97,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 460,
+    alignItems: "center",
     zIndex: 2,
   },
   brandRow: {
@@ -126,6 +114,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     borderWidth: 1,
     borderColor: colors.accentStrong,
+  },
+  brandMonogram: {
+    color: colors.white,
+    fontSize: 16,
+    lineHeight: 19,
+    fontWeight: "900",
+    letterSpacing: -1,
   },
   brandName: {
     color: colors.text,
@@ -149,6 +144,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     fontWeight: "800",
     letterSpacing: 2.1,
+    textAlign: "center",
   },
   title: {
     marginTop: 10,
@@ -157,6 +153,7 @@ const styles = StyleSheet.create({
     lineHeight: 59,
     fontWeight: "900",
     letterSpacing: -2.4,
+    textAlign: "center",
   },
   titleAccent: {
     color: colors.accentStrong,
@@ -172,6 +169,7 @@ const styles = StyleSheet.create({
     marginTop: 26,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     flexWrap: "wrap",
     gap: 12,
   },
