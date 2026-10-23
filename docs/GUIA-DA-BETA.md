@@ -1,73 +1,106 @@
-# Guia da versão beta — Na Brasa
+# Guia da beta editorial — Na Brasa
 
-## Objetivo desta versão
+## Objetivo
 
-Transformar a aplicação anterior em um cardápio somente expositivo, responsivo e pronto para uma primeira apresentação ao cliente. Carrinho, checkout e WhatsApp continuam fora do escopo.
+Esta versão transforma o esboço anterior em um cardápio expositivo com apresentação editorial, pensado primeiro para celulares e inspirado na linguagem visual urbana da Na Brasa. Carrinho, checkout, pedidos e integração com WhatsApp continuam fora do escopo.
 
-## O que foi implementado
+Produtos, preços, imagens e parte dos textos ainda são demonstrativos.
 
-- identidade visual escura com destaque em laranja e estética urbana leve;
-- apresentação da marca e do slogan **“O 01 da City”** no topo;
-- navegação fixa por categorias;
-- clique em uma categoria com rolagem até a seção correspondente;
-- destaque automático da categoria visível;
-- cards com nome, descrição, imagem e preço formatado em real;
-- uma coluna no mobile e duas colunas quando houver espaço;
-- informações básicas de acessibilidade nos controles;
-- exportação web estática com somente as rotas reais da aplicação;
-- nome e identificadores do projeto atualizados de `facul01` para o cardápio da Na Brasa.
+## O que mudou nesta reformulação
 
-Os produtos, preços, textos e imagens ainda são demonstrativos.
+1. A página principal foi dividida em componentes menores, sem perder a navegação que já funcionava.
+2. Cores, espaçamentos, bordas e tipografia foram centralizados em um tema.
+3. O modelo de produto passou a aceitar ingredientes, texto alternativo, etiquetas e destaques.
+4. O topo ganhou uma apresentação mais forte para a marca e o slogan **“O 01 da City”**.
+5. Os produtos passaram a usar imagens maiores, preço em selo, numeração editorial e ingredientes em chips.
+6. Cada categoria ganhou uma atmosfera própria, mantendo a mesma identidade visual.
+7. O clique em um produto abre seus detalhes e permite navegar para o item anterior ou seguinte.
+8. Foi criado um espaço opcional para combos, lançamentos e campanhas sazonais.
 
 ## Estrutura atual
 
 ```text
 src/
 ├── app/
-│   ├── _layout.tsx        configuração visual e de navegação
-│   └── index.tsx          composição e comportamento da página
+│   ├── _layout.tsx
+│   └── index.tsx                    coordena a página e seus estados
 ├── components/
-│   ├── BrandHero.tsx      apresentação da marca no topo
-│   └── ProductCard.tsx    visual de cada produto
+│   ├── BrandHero.tsx                apresentação principal da marca
+│   ├── ProductCard.tsx              card editorial de um produto
+│   ├── menu/
+│   │   ├── IngredientChip.tsx       etiqueta de ingrediente
+│   │   ├── MenuSection.tsx          seção completa de uma categoria
+│   │   ├── PriceBadge.tsx           selo circular de preço
+│   │   └── ProductDetailsModal.tsx  detalhes ampliados do produto
+│   ├── navigation/
+│   │   └── CategoryNavigation.tsx   barra fixa de categorias
+│   └── promotional/
+│       └── FeaturedCampaign.tsx     área de campanha opcional
 ├── data/
-│   └── products.ts        categorias e produtos do cardápio
-└── theme.ts               cores e largura máxima compartilhadas
+│   ├── campaigns.ts                 conteúdo promocional
+│   └── products.ts                  categorias e produtos
+├── theme/
+│   ├── colors.ts
+│   ├── layout.ts
+│   ├── typography.ts
+│   └── index.ts
+└── utils/
+    └── formatPrice.ts               formatação monetária compartilhada
 ```
-
-Os componentes e os dados ficaram fora de `src/app` porque o Expo Router interpreta os arquivos dessa pasta como páginas. Essa separação evita gerar URLs indevidas durante a hospedagem.
 
 ## Como o funcionamento se conecta
 
-1. `products.ts` fornece as categorias e os produtos.
-2. `index.tsx` percorre as categorias e filtra os produtos de cada uma.
-3. `ProductCard.tsx` recebe um produto e apresenta seus dados.
-4. `onLayout` registra a posição de cada seção.
-5. Os chips usam essas posições para rolar o cardápio.
-6. `onScroll` identifica a seção atual e atualiza o chip destacado.
+1. `products.ts` fornece categorias e produtos.
+2. `index.tsx` monta a sequência da página e guarda o produto selecionado.
+3. `CategoryNavigation` recebe a categoria ativa e solicita a rolagem quando um botão é pressionado.
+4. `MenuSection` recebe uma categoria e entrega seus produtos ao `ProductCard`.
+5. `ProductCard` informa ao `index.tsx` qual produto foi selecionado.
+6. `ProductDetailsModal` apresenta esse produto sem criar uma nova página.
+7. `campaigns.ts` controla o conteúdo do espaço promocional.
 
-## Conceitos novos, em uma frase
+## Conceitos principais, em uma frase
 
-- **`useState`**: guarda a categoria que precisa aparecer como ativa na interface.
-- **`useRef`**: preserva referências e medidas entre renderizações sem redesenhar a tela a cada mudança.
-- **`onLayout`**: informa a posição e o tamanho calculados de um elemento depois que ele aparece na tela.
-- **`onScroll`**: acompanha a posição atual da rolagem para atualizar a categoria ativa.
-- **`scrollTo`**: movimenta o `ScrollView` até uma coordenada vertical específica.
-- **`stickyHeaderIndices`**: mantém a barra de categorias presa ao topo durante a rolagem.
-- **`Pressable`**: cria um controle clicável com estados visuais e suporte de acessibilidade.
-- **`accessibilityLabel` e `accessibilityState`**: explicam o controle e seu estado para tecnologias assistivas.
-- **`flexWrap` e `flexBasis`**: fazem os cards se reorganizarem conforme o espaço disponível, sem depender de uma largura fixa.
-- **`Intl.NumberFormat`**: converte o número do preço para o formato brasileiro, como `R$ 29,90`.
-- **`as const`**: preserva os valores exatos das categorias para o TypeScript detectar categorias inválidas.
-- **`Partial<Record<...>>`**: descreve um objeto que guarda, de forma opcional, a posição de cada categoria.
+- **Composição de componentes:** a tela final é construída pela união de peças pequenas, cada uma responsável por uma parte da interface.
+- **Props:** são os dados e ações entregues por um componente pai para um componente filho.
+- **Estado do produto selecionado:** guarda qual item deve aparecer no modal ou `null` quando ele está fechado.
+- **Renderização condicional:** mostra um elemento somente quando uma condição é atendida, como uma etiqueta ou campanha ativa.
+- **Variação visual:** a categoria escolhe entre os estilos `paper`, `dark` e `compact` sem duplicar componentes.
+- **Design tokens:** cores, espaçamentos, arredondamentos e fontes ficam centralizados para manter consistência.
+- **Função compartilhada:** `formatPrice` impede que cada componente implemente sua própria formatação de preço.
+- **Navegação circular:** ao avançar depois do último produto, o modal retorna ao primeiro item.
+- **Texto alternativo:** descreve as imagens para leitores de tela e melhora a acessibilidade.
+- **Modal responsivo:** aparece como painel inferior no celular e como janela central em telas maiores.
 
-## Como atualizar o cardápio
+## Como atualizar produtos
 
 Edite `src/data/products.ts`.
 
-- `categories` define a ordem e o nome das seções.
-- `products` define nome, descrição, preço, imagem e categoria de cada item.
-- `category` precisa corresponder ao `id` de uma categoria existente.
-- Para trocar uma imagem, coloque o arquivo em `assets/images`, importe-o no início de `products.ts` e use esse import no campo `image`.
+- `categories` controla ordem, título, descrição e estilo das seções.
+- `products` controla nome, descrição, ingredientes, preço, imagem e categoria.
+- `category` deve corresponder ao `id` de uma categoria existente.
+- `tag` é opcional e cria uma etiqueta como “Mais pedido”.
+- `featured` já está disponível para futuras regras de destaque.
+- `imageAlt` deve descrever a fotografia de maneira curta e objetiva.
+
+Para trocar uma imagem, coloque o arquivo em `assets/images`, importe-o em `products.ts` e use o import no campo `image`.
+
+## Como atualizar a campanha
+
+Edite `src/data/campaigns.ts`.
+
+- `title`, `description` e `image` alteram a apresentação.
+- `active: true` exibe a campanha.
+- `active: false` remove a campanha sem apagar sua estrutura.
+
+Essa separação permite trocar um combo ou uma arte sazonal sem modificar a página principal.
+
+## Como alterar a identidade visual
+
+- `theme/colors.ts`: paleta de cores.
+- `theme/layout.ts`: larguras, espaçamentos e arredondamentos.
+- `theme/typography.ts`: famílias tipográficas e configurações de texto.
+
+Quando os arquivos oficiais chegarem, a prioridade será substituir logo, fotografias e textos sem refazer os componentes.
 
 ## Como executar e validar
 
@@ -77,25 +110,23 @@ npm run typecheck
 npm run export:web
 ```
 
-- `npm run web`: abre o ambiente local de desenvolvimento.
-- `npm run typecheck`: verifica erros de TypeScript sem gerar arquivos.
-- `npm run export:web`: confirma que a versão estática usada na futura hospedagem pode ser criada.
+- `npm run web`: inicia a prévia local.
+- `npm run typecheck`: procura erros de TypeScript sem gerar arquivos.
+- `npm run export:web`: gera a versão estática destinada à hospedagem.
 
-Se o Expo abrir outro navegador automaticamente, copie o endereço `http://localhost:8081` exibido no terminal e abra-o no Chrome.
+## Commits do redesign
 
-## Commits desta etapa
+- `e92411b` — separação da navegação e das seções;
+- `27529aa` — novo modelo de dados e sistema visual;
+- `d19ab13` — experiência editorial, campanha e detalhes de produtos;
+- o guia atualizado é mantido em um commit próprio.
 
-- `3bbffc8` — destaque automático da categoria atual;
-- `cae334d` — interface beta responsiva da Na Brasa;
-- `3315730` — configuração do projeto para a beta web;
-- o documento atual é mantido em um commit próprio.
+## O que ainda depende do cliente
 
-## Pontos para a próxima avaliação
+- logotipo oficial;
+- fotografias oficiais e consistentes;
+- lista final de produtos, ingredientes e preços;
+- aprovação dos textos e do espaço de campanhas;
+- decisão final sobre domínio, hospedagem e QR Code.
 
-- substituir produtos, preços, textos e imagens pelos dados oficiais;
-- inserir logo, favicon e demais arquivos oficiais da marca;
-- revisar com o cliente os textos de apresentação e a localização;
-- decidir depois sobre o espaço promocional de “combo da semana”;
-- somente após a aprovação, escolher hospedagem, domínio e geração do QR Code.
-
-Nenhuma integração de pedido foi reintroduzida nesta versão.
+Nenhuma publicação ou `git push` foi realizada.
