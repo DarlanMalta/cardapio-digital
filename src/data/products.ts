@@ -10,6 +10,7 @@ export const categories = [
   { id: "bebidas", label: "Bebidas" },
 ] as const;
 
+export type CategoryType = (typeof categories)[number];
 export type CategoryId = (typeof categories)[number]["id"];
 
 export type ProductType = {

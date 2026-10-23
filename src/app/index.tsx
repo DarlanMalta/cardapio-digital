@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import {
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,7 +9,8 @@ import {
 } from "react-native";
 
 import BrandHero from "../components/BrandHero";
-import ProductCard from "../components/ProductCard";
+import MenuSection from "../components/menu/MenuSection";
+import CategoryNavigation from "../components/navigation/CategoryNavigation";
 import { categories, products, type CategoryId } from "../data/products";
 import { colors, layout } from "../theme";
 
@@ -88,48 +88,14 @@ export default function Index() {
     >
       <BrandHero />
 
-      <View
-        style={styles.categoryNavigation}
+      <CategoryNavigation
+        categories={categories}
+        activeCategory={activeCategory}
+        onSelectCategory={scrollToCategory}
         onLayout={(event) => {
           categoryNavigationHeight.current = event.nativeEvent.layout.height;
         }}
-      >
-        <View style={styles.categoryNavigationFrame}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoryNavigationContent}
-          >
-            {categories.map((category) => {
-              const isActive = activeCategory === category.id;
-
-              return (
-                <Pressable
-                  key={category.id}
-                  onPress={() => scrollToCategory(category.id)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Ir para ${category.label}`}
-                  accessibilityState={{ selected: isActive }}
-                  style={({ pressed }) => [
-                    styles.categoryChip,
-                    isActive && styles.categoryChipActive,
-                    pressed && styles.categoryChipPressed,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.categoryChipText,
-                      isActive && styles.categoryChipTextActive,
-                    ]}
-                  >
-                    {category.label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        </View>
-      </View>
+      />
 
       <View
         style={styles.menuList}
@@ -149,38 +115,17 @@ export default function Index() {
           const categoryProducts = products.filter(
             (product) => product.category === category.id,
           );
-          const itemLabel = categoryProducts.length === 1 ? "item" : "itens";
-
           return (
-            <View
+            <MenuSection
               key={category.id}
-              style={styles.categorySection}
+              category={category}
+              categoryIndex={categoryIndex}
+              products={categoryProducts}
               onLayout={(event) => {
                 categoryPositions.current[category.id] =
                   event.nativeEvent.layout.y;
               }}
-            >
-              <View style={styles.categoryHeading}>
-                <View style={styles.categoryTitleGroup}>
-                  <Text style={styles.categoryIndex}>
-                    {String(categoryIndex + 1).padStart(2, "0")}
-                  </Text>
-                  <Text style={styles.categoryTitle}>{category.label}</Text>
-                </View>
-
-                <Text style={styles.categoryCount}>
-                  {categoryProducts.length} {itemLabel}
-                </Text>
-              </View>
-
-              <View style={styles.productGrid}>
-                {categoryProducts.map((product) => (
-                  <View key={product.id} style={styles.productSlot}>
-                    <ProductCard product={product} />
-                  </View>
-                ))}
-              </View>
-            </View>
+            />
           );
         })}
       </View>
@@ -209,53 +154,6 @@ const styles = StyleSheet.create({
   pageContent: {
     width: "100%",
     backgroundColor: colors.background,
-  },
-  categoryNavigation: {
-    width: "100%",
-    zIndex: 10,
-    backgroundColor: "rgba(9, 9, 9, 0.98)",
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  categoryNavigationFrame: {
-    width: "100%",
-    maxWidth: layout.contentMaxWidth,
-    alignSelf: "center",
-  },
-  categoryNavigationContent: {
-    flexGrow: 1,
-    minHeight: 68,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 11,
-    gap: 10,
-  },
-  categoryChip: {
-    minHeight: 44,
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 17,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 999,
-  },
-  categoryChipActive: {
-    backgroundColor: colors.accent,
-    borderColor: colors.accentStrong,
-  },
-  categoryChipPressed: {
-    opacity: 0.68,
-  },
-  categoryChipText: {
-    color: colors.textMuted,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "700",
-  },
-  categoryChipTextActive: {
-    color: colors.white,
   },
   menuList: {
     width: "100%",
@@ -296,61 +194,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 23,
     textAlign: "center",
-  },
-  categorySection: {
-    width: "100%",
-    marginBottom: 68,
-  },
-  categoryHeading: {
-    marginBottom: 20,
-    paddingBottom: 15,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    gap: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  categoryTitleGroup: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "baseline",
-    gap: 11,
-  },
-  categoryIndex: {
-    color: colors.accentStrong,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "900",
-    letterSpacing: 1.2,
-  },
-  categoryTitle: {
-    flexShrink: 1,
-    color: colors.text,
-    fontSize: 25,
-    lineHeight: 30,
-    fontWeight: "900",
-    letterSpacing: -0.5,
-  },
-  categoryCount: {
-    color: colors.textMuted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "600",
-  },
-  productGrid: {
-    width: "100%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    columnGap: 16,
-    rowGap: 16,
-  },
-  productSlot: {
-    minWidth: 280,
-    maxWidth: 530,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 430,
   },
   footer: {
     width: "100%",
