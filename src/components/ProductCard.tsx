@@ -1,113 +1,353 @@
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
   View,
 } from "react-native";
 
-import { colors } from "../theme";
-import type { ProductType } from "../data/products";
+import type { CategoryVariant, ProductType } from "../data/products";
+import { colors, radius, spacing, typography } from "../theme";
+import IngredientChip from "./menu/IngredientChip";
+import PriceBadge from "./menu/PriceBadge";
 
 type Props = {
   product: ProductType;
+  productIndex: number;
+  variant: CategoryVariant;
+  onPress: (product: ProductType) => void;
 };
 
-const priceFormatter = new Intl.NumberFormat("pt-BR", {
-  style: "currency",
-  currency: "BRL",
-});
-
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({
+  product,
+  productIndex,
+  variant,
+  onPress,
+}: Props) {
   const { width } = useWindowDimensions();
-  const isSmallScreen = width < 390;
+  const isMobile = width < 560;
+  const isDark = variant === "dark";
+  const isAccent = variant === "compact";
+  const useCoverImage = product.category !== "hamburgers";
 
   return (
-    <View
-      style={styles.card}
-      accessible
-      accessibilityLabel={`${product.name}, ${product.description}, ${priceFormatter.format(product.price)}`}
+    <Pressable
+      onPress={() => onPress(product)}
+      accessibilityRole="button"
+      accessibilityLabel={`Ver detalhes de ${product.name}`}
+      accessibilityHint="Abre a apresentação completa do produto"
+      style={({ pressed }) => [
+        styles.card,
+        isDark && styles.cardDark,
+        isAccent && styles.cardAccent,
+        pressed && styles.cardPressed,
+      ]}
     >
-      <Image
-        source={product.image}
-        style={[styles.image, isSmallScreen && styles.imageSmall]}
-        resizeMode="cover"
-        accessible={false}
-      />
+      <View
+        style={[
+          styles.visual,
+          isDark && styles.visualDark,
+          isAccent && styles.visualAccent,
+          isMobile && styles.visualMobile,
+        ]}
+      >
+        <Text
+          style={[
+            styles.watermark,
+            (isDark || isAccent) && styles.watermarkLight,
+          ]}
+        >
+          {String(productIndex + 1).padStart(2, "0")}
+        </Text>
 
-      <View style={styles.info}>
-        <Text style={styles.name}>{product.name}</Text>
-        <Text style={styles.description}>{product.description}</Text>
-        <View style={styles.footer}>
-          <View style={styles.priceMarker} />
-          <Text style={styles.price}>{priceFormatter.format(product.price)}</Text>
+        {product.tag ? (
+          <View style={[styles.tag, (isDark || isAccent) && styles.tagDark]}>
+            <Text
+              style={[
+                styles.tagText,
+                (isDark || isAccent) && styles.tagTextDark,
+              ]}
+            >
+              {product.tag}
+            </Text>
+          </View>
+        ) : null}
+
+        <Image
+          source={product.image}
+          style={styles.image}
+          resizeMode={useCoverImage ? "cover" : "contain"}
+          accessible
+          accessibilityLabel={product.imageAlt}
+        />
+
+        <View style={styles.pricePosition} pointerEvents="none">
+          <PriceBadge price={product.price} compact={isMobile} />
         </View>
       </View>
-    </View>
+
+      <View style={styles.info}>
+        <View style={styles.headingRow}>
+          <Text
+            style={[
+              styles.index,
+              isDark && styles.textAccent,
+              isAccent && styles.textOnAccentMuted,
+            ]}
+          >
+            #{String(productIndex + 1).padStart(2, "0")}
+          </Text>
+          <View
+            style={[
+              styles.headingLine,
+              isDark && styles.headingLineDark,
+              isAccent && styles.headingLineAccent,
+            ]}
+          />
+        </View>
+
+        <Text
+          style={[
+            styles.name,
+            (isDark || isAccent) && styles.textLight,
+            isMobile && styles.nameMobile,
+          ]}
+        >
+          {product.name}
+        </Text>
+        <Text
+          style={[
+            styles.description,
+            isDark && styles.descriptionDark,
+            isAccent && styles.descriptionAccent,
+          ]}
+        >
+          {product.description}
+        </Text>
+
+        <View style={styles.ingredients}>
+          {product.ingredients.slice(0, 4).map((ingredient) => (
+            <IngredientChip
+              key={ingredient}
+              label={ingredient}
+              tone={isAccent ? "accent" : isDark ? "dark" : "paper"}
+            />
+          ))}
+        </View>
+
+        <View style={styles.detailsLink}>
+          <Text
+            style={[
+              styles.detailsLinkText,
+              (isDark || isAccent) && styles.detailsLinkTextLight,
+            ]}
+          >
+            VER DE PERTO
+          </Text>
+          <Text
+            style={[
+              styles.detailsArrow,
+              (isDark || isAccent) && styles.detailsLinkTextLight,
+            ]}
+          >
+            →
+          </Text>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    minHeight: 142,
     width: "100%",
-    flexDirection: "row",
-    padding: 10,
     overflow: "hidden",
-    backgroundColor: colors.surfaceRaised,
+    backgroundColor: colors.paperStrong,
     borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 18,
+    borderColor: colors.borderPaper,
+    borderRadius: radius.lg,
     shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.24,
-    shadowRadius: 18,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 14 },
+    shadowOpacity: 0.14,
+    shadowRadius: 24,
+    elevation: 5,
+  },
+  cardDark: {
+    backgroundColor: colors.inkSoft,
+    borderColor: colors.borderDark,
+  },
+  cardAccent: {
+    backgroundColor: colors.emberDark,
+    borderColor: "rgba(255, 255, 255, 0.16)",
+  },
+  cardPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.99 }],
+  },
+  visual: {
+    width: "100%",
+    height: 300,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.paperMuted,
+  },
+  visualDark: {
+    backgroundColor: colors.charcoal,
+  },
+  visualAccent: {
+    backgroundColor: "#90220F",
+  },
+  visualMobile: {
+    height: 255,
+  },
+  watermark: {
+    position: "absolute",
+    left: -8,
+    bottom: -33,
+    color: "rgba(26, 21, 17, 0.06)",
+    fontFamily: typography.display,
+    fontSize: 154,
+    lineHeight: 164,
+    fontWeight: "900",
+    letterSpacing: -12,
+  },
+  watermarkLight: {
+    color: "rgba(255, 255, 255, 0.055)",
+  },
+  tag: {
+    position: "absolute",
+    top: spacing.md,
+    left: spacing.md,
+    zIndex: 3,
+    paddingVertical: 7,
+    paddingHorizontal: 11,
+    borderRadius: radius.pill,
+    backgroundColor: colors.paperStrong,
+    borderWidth: 1,
+    borderColor: colors.borderPaper,
+  },
+  tagDark: {
+    backgroundColor: colors.ink,
+    borderColor: colors.borderDark,
+  },
+  tagText: {
+    color: colors.textOnPaper,
+    fontFamily: typography.body,
+    fontSize: 9,
+    lineHeight: 12,
+    fontWeight: "900",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  tagTextDark: {
+    color: colors.text,
   },
   image: {
-    width: 122,
-    height: 122,
-    backgroundColor: colors.surface,
-    borderRadius: 13,
+    width: "100%",
+    height: "100%",
   },
-  imageSmall: {
-    width: 96,
+  pricePosition: {
+    position: "absolute",
+    right: spacing.md,
+    bottom: -2,
+    zIndex: 4,
   },
   info: {
+    padding: spacing.lg,
+  },
+  headingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  index: {
+    color: colors.emberDark,
+    fontFamily: typography.body,
+    fontSize: 10,
+    lineHeight: 13,
+    fontWeight: "900",
+    letterSpacing: 1.4,
+  },
+  textAccent: {
+    color: colors.emberStrong,
+  },
+  textOnAccentMuted: {
+    color: "rgba(255, 255, 255, 0.72)",
+  },
+  headingLine: {
     flex: 1,
-    justifyContent: "space-between",
-    paddingVertical: 7,
-    paddingLeft: 16,
-    paddingRight: 8,
+    height: 1,
+    backgroundColor: colors.borderPaper,
+  },
+  headingLineDark: {
+    backgroundColor: colors.borderDark,
+  },
+  headingLineAccent: {
+    backgroundColor: "rgba(255, 255, 255, 0.18)",
   },
   name: {
+    marginTop: 14,
+    color: colors.textOnPaper,
+    fontFamily: typography.display,
+    fontSize: 29,
+    lineHeight: 33,
+    fontWeight: "900",
+    letterSpacing: -1.1,
+    textTransform: "uppercase",
+  },
+  nameMobile: {
+    fontSize: 25,
+    lineHeight: 29,
+  },
+  textLight: {
     color: colors.text,
-    fontSize: 18,
-    lineHeight: 22,
-    fontWeight: "800",
   },
   description: {
-    marginTop: 7,
-    color: colors.textMuted,
+    marginTop: 10,
+    color: colors.textOnPaperMuted,
+    fontFamily: typography.body,
     fontSize: 14,
-    lineHeight: 20,
+    lineHeight: 21,
   },
-  footer: {
-    marginTop: 14,
+  descriptionDark: {
+    color: colors.textMuted,
+  },
+  descriptionAccent: {
+    color: "rgba(255, 255, 255, 0.78)",
+  },
+  ingredients: {
+    marginTop: 17,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 7,
+  },
+  detailsLink: {
+    alignSelf: "flex-start",
+    marginTop: 23,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    paddingBottom: 4,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.ember,
   },
-  priceMarker: {
-    width: 18,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: colors.accent,
+  detailsLinkText: {
+    color: colors.textOnPaper,
+    fontFamily: typography.body,
+    fontSize: 10,
+    lineHeight: 13,
+    fontWeight: "900",
+    letterSpacing: 1.4,
   },
-  price: {
-    color: colors.accentStrong,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: "800",
+  detailsLinkTextLight: {
+    color: colors.white,
+  },
+  detailsArrow: {
+    color: colors.textOnPaper,
+    fontSize: 17,
+    lineHeight: 17,
+    fontWeight: "700",
   },
 });

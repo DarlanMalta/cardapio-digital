@@ -1,14 +1,37 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 
+import backgroundImage from "../../assets/images/BackGround.png";
 import burgerImage from "../../assets/images/Xburguer.png";
-import { colors, layout } from "../theme";
+import { colors, layout, radius, spacing, typography } from "../theme";
 
-export default function BrandHero() {
+type Props = {
+  onExplore: () => void;
+};
+
+export default function BrandHero({ onExplore }: Props) {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 760;
+
   return (
-    <View style={styles.hero}>
-      <View style={styles.heroContent}>
-        <View style={styles.heroCopy}>
+    <ImageBackground
+      source={backgroundImage}
+      style={styles.hero}
+      imageStyle={styles.backgroundImage}
+      resizeMode="cover"
+    >
+      <View style={styles.overlay} />
+
+      <View style={styles.content}>
+        <View style={styles.topbar}>
           <View style={styles.brandRow}>
             <View style={styles.brandMark}>
               <Text style={styles.brandMonogram}>NB</Text>
@@ -20,237 +43,369 @@ export default function BrandHero() {
             </View>
           </View>
 
-          <Text style={styles.eyebrow}>SABOR DE VERDADE, DIRETO DA BRASA.</Text>
-          <Text style={styles.title}>
-            O 01 DA{`\n`}
-            <Text style={styles.titleAccent}>CITY.</Text>
-          </Text>
+          <View style={styles.location}>
+            <MaterialCommunityIcons
+              name="map-marker-outline"
+              size={17}
+              color={colors.emberStrong}
+            />
+            <Text style={styles.locationText}>CONDEÚBA • BA</Text>
+          </View>
+        </View>
 
-          <View style={styles.metaRow}>
-            <View style={styles.metaItem}>
-              <MaterialCommunityIcons
-                name="map-marker-outline"
-                size={18}
-                color={colors.accentStrong}
-              />
-              <Text style={styles.metaText}>Condeúba • BA</Text>
+        <View style={[styles.main, isMobile && styles.mainMobile]}>
+          <View style={[styles.copy, isMobile && styles.copyMobile]}>
+            <View style={styles.eyebrowRow}>
+              <View style={styles.eyebrowLine} />
+              <Text style={styles.eyebrow}>SABOR DE VERDADE</Text>
             </View>
 
-            <View style={styles.metaDivider} />
+            <Text style={[styles.title, isMobile && styles.titleMobile]}>
+              O 01 DA{`\n`}
+              <Text style={styles.titleAccent}>CITY.</Text>
+            </Text>
 
-            <View style={styles.metaItem}>
+            <Text style={styles.description}>
+              Cardápio direto, visual e com a identidade de quem faz na brasa.
+            </Text>
+
+            <Pressable
+              onPress={onExplore}
+              accessibilityRole="button"
+              accessibilityLabel="Ir para o cardápio"
+              style={({ pressed }) => [
+                styles.button,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Text style={styles.buttonText}>VER O CARDÁPIO</Text>
               <MaterialCommunityIcons
-                name="silverware-fork-knife"
-                size={17}
-                color={colors.accentStrong}
+                name="arrow-down"
+                size={18}
+                color={colors.white}
               />
-              <Text style={styles.metaText}>Cardápio digital</Text>
+            </Pressable>
+          </View>
+
+          <View style={[styles.visual, isMobile && styles.visualMobile]}>
+            <View style={styles.orbitOuter} />
+            <View style={styles.orbitInner} />
+            <Text style={[styles.number, isMobile && styles.numberMobile]}>
+              01
+            </Text>
+            <Image
+              source={burgerImage}
+              style={[styles.burger, isMobile && styles.burgerMobile]}
+              resizeMode="contain"
+              accessible
+              accessibilityLabel="Hambúrguer artesanal da Na Brasa"
+            />
+
+            <View style={styles.qualityTag}>
+              <View style={styles.qualityDot} />
+              <Text style={styles.qualityText}>FEITO NA BRASA</Text>
             </View>
           </View>
         </View>
 
-        <View style={styles.heroVisual} pointerEvents="none">
-          <View style={styles.glow} />
-          <Text style={styles.heroNumber}>01</Text>
-          <Image
-            source={burgerImage}
-            style={styles.heroImage}
-            resizeMode="contain"
-            accessible
-            accessibilityLabel="Hambúrguer artesanal da Na Brasa"
-          />
-          <View style={styles.heroTag}>
-            <View style={styles.heroTagDot} />
-            <Text style={styles.heroTagText}>FEITO PARA VOCÊ</Text>
-          </View>
+        <View style={styles.footerLine}>
+          <Text style={styles.footerText}>CARDÁPIO DIGITAL</Text>
+          <View style={styles.footerDivider} />
+          <Text style={styles.footerText}>ROLE PARA EXPLORAR</Text>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   hero: {
     width: "100%",
+    minHeight: 690,
     overflow: "hidden",
-    backgroundColor: colors.background,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    backgroundColor: colors.ink,
   },
-  heroContent: {
-    minHeight: 520,
+  backgroundImage: {
+    opacity: 0.56,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(6, 5, 4, 0.56)",
+  },
+  content: {
     width: "100%",
     maxWidth: layout.contentMaxWidth,
+    minHeight: 690,
     alignSelf: "center",
+    justifyContent: "space-between",
+    paddingTop: 30,
+    paddingBottom: 25,
+    paddingHorizontal: layout.horizontalPadding,
+  },
+  topbar: {
+    width: "100%",
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 64,
-    paddingBottom: 54,
-    paddingHorizontal: 20,
-    columnGap: 52,
-    rowGap: 28,
-  },
-  heroCopy: {
-    minWidth: 280,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 460,
-    alignItems: "center",
-    zIndex: 2,
+    gap: spacing.md,
   },
   brandRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: 11,
   },
   brandMark: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.accent,
-    borderWidth: 1,
-    borderColor: colors.accentStrong,
+    backgroundColor: colors.ember,
+    borderWidth: 2,
+    borderColor: colors.emberStrong,
+    transform: [{ rotate: "-6deg" }],
   },
   brandMonogram: {
     color: colors.white,
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: typography.display,
+    fontSize: 17,
+    lineHeight: 20,
     fontWeight: "900",
-    letterSpacing: -1,
+    letterSpacing: -1.4,
   },
   brandName: {
     color: colors.text,
+    fontFamily: typography.display,
     fontSize: 18,
-    lineHeight: 20,
+    lineHeight: 21,
     fontWeight: "900",
     letterSpacing: 2.4,
   },
   brandDescriptor: {
-    marginTop: 3,
-    color: colors.textMuted,
-    fontSize: 10,
+    marginTop: 2,
+    color: colors.emberStrong,
+    fontFamily: typography.body,
+    fontSize: 9,
+    lineHeight: 11,
+    fontWeight: "800",
+    letterSpacing: 3.1,
+  },
+  location: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 11,
+    borderWidth: 1,
+    borderColor: colors.borderDark,
+    borderRadius: radius.pill,
+    backgroundColor: "rgba(11, 10, 9, 0.72)",
+  },
+  locationText: {
+    color: colors.text,
+    fontFamily: typography.body,
+    fontSize: 9,
     lineHeight: 12,
-    fontWeight: "700",
-    letterSpacing: 3.2,
+    fontWeight: "800",
+    letterSpacing: 1.2,
+  },
+  main: {
+    width: "100%",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 28,
+    paddingVertical: 38,
+  },
+  mainMobile: {
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingTop: 66,
+    paddingBottom: 24,
+  },
+  copy: {
+    maxWidth: 580,
+    flex: 1,
+    alignItems: "flex-start",
+    zIndex: 3,
+  },
+  copyMobile: {
+    width: "100%",
+    alignItems: "center",
+  },
+  eyebrowRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  eyebrowLine: {
+    width: 32,
+    height: 3,
+    backgroundColor: colors.ember,
   },
   eyebrow: {
-    marginTop: 38,
-    color: colors.accentStrong,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-    letterSpacing: 2.1,
-    textAlign: "center",
+    color: colors.emberStrong,
+    fontFamily: typography.body,
+    fontSize: 11,
+    lineHeight: 14,
+    fontWeight: "900",
+    letterSpacing: 2,
   },
   title: {
-    marginTop: 10,
+    marginTop: 16,
     color: colors.text,
-    fontSize: 60,
-    lineHeight: 59,
+    fontFamily: typography.display,
+    fontSize: 84,
+    lineHeight: 78,
     fontWeight: "900",
-    letterSpacing: -2.4,
+    letterSpacing: -5,
+  },
+  titleMobile: {
+    fontSize: 58,
+    lineHeight: 55,
+    letterSpacing: -3.5,
     textAlign: "center",
   },
   titleAccent: {
-    color: colors.accentStrong,
+    color: colors.ember,
   },
   description: {
-    maxWidth: 520,
-    marginTop: 20,
+    maxWidth: 430,
+    marginTop: 22,
     color: colors.textMuted,
-    fontSize: 16,
-    lineHeight: 25,
+    fontFamily: typography.body,
+    fontSize: 15,
+    lineHeight: 23,
   },
-  metaRow: {
-    marginTop: 26,
+  button: {
+    minHeight: 50,
+    marginTop: 28,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    flexWrap: "wrap",
     gap: 12,
+    paddingVertical: 13,
+    paddingHorizontal: 20,
+    borderRadius: radius.pill,
+    backgroundColor: colors.ember,
+    borderWidth: 1,
+    borderColor: colors.emberStrong,
   },
-  metaItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 7,
+  buttonPressed: {
+    opacity: 0.78,
+    transform: [{ scale: 0.98 }],
   },
-  metaText: {
-    color: colors.text,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "600",
+  buttonText: {
+    color: colors.white,
+    fontFamily: typography.body,
+    fontSize: 11,
+    lineHeight: 14,
+    fontWeight: "900",
+    letterSpacing: 1.5,
   },
-  metaDivider: {
-    width: 1,
-    height: 18,
-    backgroundColor: colors.border,
-  },
-  heroVisual: {
-    minWidth: 280,
-    maxWidth: 430,
-    height: 320,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 320,
-    alignSelf: "center",
+  visual: {
+    minWidth: 360,
+    maxWidth: 520,
+    height: 410,
+    flex: 0.95,
     alignItems: "center",
     justifyContent: "center",
   },
-  glow: {
-    position: "absolute",
-    width: 270,
-    height: 270,
-    borderRadius: 135,
-    backgroundColor: colors.accentSoft,
-    borderWidth: 1,
-    borderColor: colors.borderWarm,
-  },
-  heroNumber: {
-    position: "absolute",
-    top: -35,
-    right: 2,
-    color: "rgba(255, 255, 255, 0.035)",
-    fontSize: 176,
-    lineHeight: 190,
-    fontWeight: "900",
-    letterSpacing: -12,
-  },
-  heroImage: {
+  visualMobile: {
+    minWidth: 0,
     width: "100%",
-    maxWidth: 430,
-    height: 290,
+    height: 310,
+    flex: 0,
+  },
+  orbitOuter: {
+    position: "absolute",
+    width: 355,
+    height: 355,
+    borderRadius: 178,
+    borderWidth: 1,
+    borderColor: "rgba(255, 106, 36, 0.22)",
+  },
+  orbitInner: {
+    position: "absolute",
+    width: 276,
+    height: 276,
+    borderRadius: 138,
+    backgroundColor: "rgba(255, 75, 31, 0.1)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 106, 36, 0.26)",
+  },
+  number: {
+    position: "absolute",
+    top: -4,
+    right: -10,
+    color: "rgba(255, 255, 255, 0.055)",
+    fontFamily: typography.display,
+    fontSize: 205,
+    lineHeight: 215,
+    fontWeight: "900",
+    letterSpacing: -17,
+  },
+  numberMobile: {
+    top: -18,
+    right: 6,
+    fontSize: 142,
+    lineHeight: 152,
+  },
+  burger: {
+    width: "110%",
+    height: 370,
     zIndex: 2,
   },
-  heroTag: {
+  burgerMobile: {
+    width: "100%",
+    height: 280,
+  },
+  qualityTag: {
     position: "absolute",
-    right: 2,
-    bottom: 8,
-    zIndex: 3,
+    right: 4,
+    bottom: 28,
+    zIndex: 4,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     paddingVertical: 9,
     paddingHorizontal: 13,
-    borderRadius: 999,
-    backgroundColor: colors.surfaceRaised,
-    borderWidth: 1,
-    borderColor: colors.border,
+    borderRadius: radius.pill,
+    backgroundColor: colors.paperStrong,
   },
-  heroTagDot: {
+  qualityDot: {
     width: 7,
     height: 7,
     borderRadius: 4,
-    backgroundColor: colors.accentStrong,
+    backgroundColor: colors.ember,
   },
-  heroTagText: {
-    color: colors.text,
-    fontSize: 10,
+  qualityText: {
+    color: colors.textOnPaper,
+    fontFamily: typography.body,
+    fontSize: 9,
     lineHeight: 12,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+  },
+  footerLine: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+  },
+  footerText: {
+    color: colors.textMuted,
+    fontFamily: typography.body,
+    fontSize: 8,
+    lineHeight: 11,
     fontWeight: "800",
-    letterSpacing: 1.3,
+    letterSpacing: 1.6,
+  },
+  footerDivider: {
+    width: 3,
+    height: 3,
+    borderRadius: 2,
+    backgroundColor: colors.ember,
   },
 });
