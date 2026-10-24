@@ -1,6 +1,7 @@
 import {
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
   type LayoutChangeEvent,
 } from "react-native";
@@ -27,9 +28,12 @@ export default function MenuSection({
   onLayout,
   onSelectProduct,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const isNarrow = width <= 420;
   const isDark = category.variant === "dark";
   const isAccent = category.variant === "compact";
   const usesLightText = isDark || isAccent;
+  const usesCompactTitle = isNarrow && category.label.length > 13;
   const itemLabel = products.length === 1 ? "item" : "itens";
 
   return (
@@ -38,11 +42,14 @@ export default function MenuSection({
         styles.section,
         isDark && styles.sectionDark,
         isAccent && styles.sectionAccent,
+        isNarrow && usesLightText && styles.sectionNarrow,
       ]}
       onLayout={onLayout}
     >
-      <View style={styles.heading}>
-        <View style={styles.headingCopy}>
+      <View style={[styles.heading, isNarrow && styles.headingNarrow]}>
+        <View
+          style={[styles.headingCopy, isNarrow && styles.headingCopyNarrow]}
+        >
           <View style={styles.eyebrowRow}>
             <Text
               style={[
@@ -67,6 +74,8 @@ export default function MenuSection({
             style={[
               styles.title,
               usesLightText && styles.titleLight,
+              isNarrow && styles.titleNarrow,
+              usesCompactTitle && styles.titleCompactNarrow,
             ]}
           >
             {category.label}
@@ -85,6 +94,8 @@ export default function MenuSection({
           style={[
             styles.count,
             usesLightText && styles.countLight,
+            isNarrow && styles.countNarrow,
+            isNarrow && usesLightText && styles.countNarrowLight,
           ]}
         >
           <Text
@@ -113,6 +124,7 @@ export default function MenuSection({
             style={[
               styles.productSlot,
               isAccent && styles.productSlotCompact,
+              isNarrow && styles.productSlotNarrow,
             ]}
           >
             <ProductCard
@@ -145,6 +157,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     backgroundColor: colors.ember,
   },
+  sectionNarrow: {
+    paddingHorizontal: spacing.sm,
+  },
   heading: {
     marginBottom: 30,
     flexDirection: "row",
@@ -152,9 +167,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: spacing.lg,
   },
+  headingNarrow: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: spacing.md,
+  },
   headingCopy: {
     minWidth: 220,
     flex: 1,
+  },
+  headingCopyNarrow: {
+    width: "100%",
+    minWidth: 0,
   },
   eyebrowRow: {
     flexDirection: "row",
@@ -197,6 +221,16 @@ const styles = StyleSheet.create({
   titleLight: {
     color: colors.white,
   },
+  titleNarrow: {
+    fontSize: 27,
+    lineHeight: 31,
+    letterSpacing: -1.2,
+  },
+  titleCompactNarrow: {
+    fontSize: 23,
+    lineHeight: 27,
+    letterSpacing: -1,
+  },
   description: {
     maxWidth: 540,
     marginTop: 9,
@@ -217,6 +251,21 @@ const styles = StyleSheet.create({
   },
   countLight: {
     borderLeftColor: "rgba(255, 255, 255, 0.22)",
+  },
+  countNarrow: {
+    width: "100%",
+    minWidth: 0,
+    flexDirection: "row",
+    alignItems: "baseline",
+    gap: 6,
+    paddingTop: 12,
+    paddingLeft: 0,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderPaper,
+    borderLeftWidth: 0,
+  },
+  countNarrowLight: {
+    borderTopColor: "rgba(255, 255, 255, 0.22)",
   },
   countValue: {
     color: colors.textOnPaper,
@@ -257,5 +306,11 @@ const styles = StyleSheet.create({
   },
   productSlotCompact: {
     flexBasis: 330,
+  },
+  productSlotNarrow: {
+    width: "100%",
+    minWidth: 0,
+    maxWidth: "100%",
+    flexBasis: "auto",
   },
 });

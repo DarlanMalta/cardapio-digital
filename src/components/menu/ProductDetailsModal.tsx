@@ -1,3 +1,5 @@
+//exibe os detalhes ampliados do produto selecionado. Também oferece fechar, avançar e voltar entre produtos.
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Image,
@@ -32,12 +34,13 @@ export default function ProductDetailsModal({
 }: Props) {
   const { width, height } = useWindowDimensions();
   const isMobile = width < 760;
+  const isNarrow = width <= 360;
 
   if (!product) {
     return null;
   }
 
-  const useCoverImage = product.category !== "hamburgers";
+  const useCoverImage = product.category !== "burger";
 
   return (
     <Modal
@@ -88,12 +91,7 @@ export default function ProductDetailsModal({
               isMobile && styles.contentMobile,
             ]}
           >
-            <View
-              style={[
-                styles.visual,
-                isMobile && styles.visualMobile,
-              ]}
-            >
+            <View style={[styles.visual, isMobile && styles.visualMobile]}>
               <Text style={styles.visualNumber}>01</Text>
               <Image
                 source={product.image}
@@ -104,9 +102,15 @@ export default function ProductDetailsModal({
               />
             </View>
 
-            <View style={styles.info}>
+            <View style={[styles.info, isNarrow && styles.infoNarrow]}>
               <Text style={styles.eyebrow}>ESCOLHA DA VEZ</Text>
-              <Text style={[styles.name, isMobile && styles.nameMobile]}>
+              <Text
+                style={[
+                  styles.name,
+                  isMobile && styles.nameMobile,
+                  isNarrow && styles.nameNarrow,
+                ]}
+              >
                 {product.name}
               </Text>
               <Text style={styles.price}>{formatPrice(product.price)}</Text>
@@ -264,6 +268,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: spacing.xl,
   },
+  infoNarrow: {
+    minWidth: 0,
+    padding: spacing.lg,
+  },
   eyebrow: {
     color: colors.emberDark,
     fontFamily: typography.body,
@@ -285,6 +293,10 @@ const styles = StyleSheet.create({
   nameMobile: {
     fontSize: 31,
     lineHeight: 35,
+  },
+  nameNarrow: {
+    fontSize: 28,
+    lineHeight: 32,
   },
   price: {
     marginTop: 14,

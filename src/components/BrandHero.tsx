@@ -20,7 +20,8 @@ type Props = {
 export default function BrandHero({ onExplore }: Props) {
   const { width } = useWindowDimensions();
   const isMobile = width < 760;
-
+  const isNarrow = width <= 360;
+  //TELA INICIAL MENU
   return (
     <ImageBackground
       source={backgroundImage}
@@ -29,9 +30,9 @@ export default function BrandHero({ onExplore }: Props) {
       resizeMode="cover"
     >
       <View style={styles.overlay} />
-
-      <View style={styles.content}>
-        <View style={styles.topbar}>
+      ///
+      <View style={[styles.content, isNarrow && styles.contentNarrow]}>
+        <View style={[styles.topbar, isNarrow && styles.topbarNarrow]}>
           <View style={styles.brandRow}>
             <View style={styles.brandMark}>
               <Text style={styles.brandMonogram}>NB</Text>
@@ -53,7 +54,13 @@ export default function BrandHero({ onExplore }: Props) {
           </View>
         </View>
 
-        <View style={[styles.main, isMobile && styles.mainMobile]}>
+        <View
+          style={[
+            styles.main,
+            isMobile && styles.mainMobile,
+            isNarrow && styles.mainNarrow,
+          ]}
+        >
           <View style={[styles.copy, isMobile && styles.copyMobile]}>
             <View style={styles.eyebrowRow}>
               <View style={styles.eyebrowLine} />
@@ -64,11 +71,6 @@ export default function BrandHero({ onExplore }: Props) {
               O 01 DA{`\n`}
               <Text style={styles.titleAccent}>CITY.</Text>
             </Text>
-
-            <Text style={styles.description}>
-              Cardápio direto, visual e com a identidade de quem faz na brasa.
-            </Text>
-
             <Pressable
               onPress={onExplore}
               accessibilityRole="button"
@@ -103,15 +105,9 @@ export default function BrandHero({ onExplore }: Props) {
 
             <View style={styles.qualityTag}>
               <View style={styles.qualityDot} />
-              <Text style={styles.qualityText}>FEITO NA BRASA</Text>
+              <Text style={styles.qualityText}>FEITO PARA VOCÊ</Text>
             </View>
           </View>
-        </View>
-
-        <View style={styles.footerLine}>
-          <Text style={styles.footerText}>CARDÁPIO DIGITAL</Text>
-          <View style={styles.footerDivider} />
-          <Text style={styles.footerText}>ROLE PARA EXPLORAR</Text>
         </View>
       </View>
     </ImageBackground>
@@ -142,12 +138,19 @@ const styles = StyleSheet.create({
     paddingBottom: 25,
     paddingHorizontal: layout.horizontalPadding,
   },
+  contentNarrow: {
+    paddingHorizontal: spacing.md,
+  },
   topbar: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     gap: spacing.md,
+  },
+  topbarNarrow: {
+    flexDirection: "column",
+    justifyContent: "center",
   },
   brandRow: {
     flexDirection: "row",
@@ -223,6 +226,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 66,
     paddingBottom: 24,
+  },
+  mainNarrow: {
+    paddingTop: 46,
   },
   copy: {
     maxWidth: 580,

@@ -27,9 +27,10 @@ export default function ProductCard({
 }: Props) {
   const { width } = useWindowDimensions();
   const isMobile = width < 560;
+  const isNarrow = width <= 360;
   const isDark = variant === "dark";
   const isAccent = variant === "compact";
-  const useCoverImage = product.category !== "hamburgers";
+  const useCoverImage = product.category !== "burger";
 
   return (
     <Pressable
@@ -50,6 +51,7 @@ export default function ProductCard({
           isDark && styles.visualDark,
           isAccent && styles.visualAccent,
           isMobile && styles.visualMobile,
+          isNarrow && styles.visualNarrow,
         ]}
       >
         <Text
@@ -87,7 +89,7 @@ export default function ProductCard({
         </View>
       </View>
 
-      <View style={styles.info}>
+      <View style={[styles.info, isNarrow && styles.infoNarrow]}>
         <View style={styles.headingRow}>
           <Text
             style={[
@@ -112,6 +114,7 @@ export default function ProductCard({
             styles.name,
             (isDark || isAccent) && styles.textLight,
             isMobile && styles.nameMobile,
+            isNarrow && styles.nameNarrow,
           ]}
         >
           {product.name}
@@ -202,6 +205,9 @@ const styles = StyleSheet.create({
   visualMobile: {
     height: 255,
   },
+  visualNarrow: {
+    height: 230,
+  },
   watermark: {
     position: "absolute",
     left: -8,
@@ -257,6 +263,9 @@ const styles = StyleSheet.create({
   info: {
     padding: spacing.lg,
   },
+  infoNarrow: {
+    padding: spacing.md,
+  },
   headingRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -300,6 +309,10 @@ const styles = StyleSheet.create({
   nameMobile: {
     fontSize: 25,
     lineHeight: 29,
+  },
+  nameNarrow: {
+    fontSize: 23,
+    lineHeight: 27,
   },
   textLight: {
     color: colors.text,

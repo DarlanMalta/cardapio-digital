@@ -188,10 +188,6 @@ export default function Index() {
                 <Text style={styles.footerSlogan}>O 01 DA CITY</Text>
               </View>
             </View>
-
-            <Text style={styles.footerNote}>
-              Cardápio demonstrativo • imagens e informações provisórias
-            </Text>
           </View>
         </View>
       </ScrollView>
@@ -339,12 +335,5 @@ const styles = StyleSheet.create({
     lineHeight: 12,
     fontWeight: "900",
     letterSpacing: 1.6,
-  },
-  footerNote: {
-    maxWidth: 360,
-    color: colors.textMuted,
-    fontFamily: typography.body,
-    fontSize: 11,
-    lineHeight: 17,
   },
 });

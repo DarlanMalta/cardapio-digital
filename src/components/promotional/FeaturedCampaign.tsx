@@ -10,6 +10,7 @@ type Props = {
 export default function FeaturedCampaign({ campaign }: Props) {
   const { width } = useWindowDimensions();
   const isMobile = width < 720;
+  const isNarrow = width <= 360;
 
   if (!campaign.active) {
     return null;
@@ -17,14 +18,20 @@ export default function FeaturedCampaign({ campaign }: Props) {
 
   return (
     <View style={[styles.container, isMobile && styles.containerMobile]}>
-      <View style={styles.copy}>
+      <View style={[styles.copy, isNarrow && styles.copyNarrow]}>
         <View style={styles.previewLabel}>
           <View style={styles.previewDot} />
           <Text style={styles.previewText}>CONTEÚDO DEMONSTRATIVO</Text>
         </View>
 
         <Text style={styles.eyebrow}>{campaign.eyebrow}</Text>
-        <Text style={[styles.title, isMobile && styles.titleMobile]}>
+        <Text
+          style={[
+            styles.title,
+            isMobile && styles.titleMobile,
+            isNarrow && styles.titleNarrow,
+          ]}
+        >
           {campaign.title}
         </Text>
         <Text style={styles.description}>{campaign.description}</Text>
@@ -64,6 +71,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: spacing.xl,
     zIndex: 2,
+  },
+  copyNarrow: {
+    minWidth: 0,
+    padding: spacing.lg,
   },
   previewLabel: {
     alignSelf: "flex-start",
@@ -114,6 +125,11 @@ const styles = StyleSheet.create({
   titleMobile: {
     fontSize: 31,
     lineHeight: 35,
+  },
+  titleNarrow: {
+    fontSize: 28,
+    lineHeight: 32,
+    letterSpacing: -1.2,
   },
   description: {
     maxWidth: 480,

@@ -1,3 +1,5 @@
+//BARRA HORIZONTAL DAS CATEGORIAS
+
 import {
   Pressable,
   ScrollView,
@@ -52,18 +54,12 @@ export default function CategoryNavigation({
                 ]}
               >
                 <Text
-                  style={[
-                    styles.chipIndex,
-                    isActive && styles.chipIndexActive,
-                  ]}
+                  style={[styles.chipIndex, isActive && styles.chipIndexActive]}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </Text>
                 <Text
-                  style={[
-                    styles.chipText,
-                    isActive && styles.chipTextActive,
-                  ]}
+                  style={[styles.chipText, isActive && styles.chipTextActive]}
                 >
                   {category.label}
                 </Text>

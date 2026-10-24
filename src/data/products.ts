@@ -5,8 +5,9 @@ import drinkImage from "../../assets/images/Bebidas.png";
 import burgerImage from "../../assets/images/Xburguer.png";
 
 export const categoryIds = [
-  "hamburgers",
-  "acompanhamentos",
+  "burger",
+  "combos",
+  "batatas",
   "bebidas",
 ] as const;
 
@@ -23,18 +24,25 @@ export type CategoryType = {
 
 export const categories: readonly CategoryType[] = [
   {
-    id: "hamburgers",
-    label: "Hambúrgueres",
+    id: "burger",
+    label: "Burger",
     eyebrow: "Os protagonistas",
     description: "Receitas feitas para chegar à mesa com presença.",
     variant: "paper",
   },
   {
-    id: "acompanhamentos",
-    label: "Acompanhamentos",
+    id: "combos",
+    label: "Combos",
+    eyebrow: "A experiência completa",
+    description: "Combinações da casa para aproveitar do começo ao fim.",
+    variant: "dark",
+  },
+  {
+    id: "batatas",
+    label: "Batatas",
     eyebrow: "Pra dividir — ou não",
     description: "Os extras que completam o rolê.",
-    variant: "dark",
+    variant: "paper",
   },
   {
     id: "bebidas",
@@ -67,7 +75,7 @@ export const products: ProductType[] = [
     price: 29.9,
     image: burgerImage,
     imageAlt: "Hambúrguer artesanal servido em pão brioche",
-    category: "hamburgers",
+    category: "burger",
     tag: "Clássico da casa",
     featured: true,
   },
@@ -79,7 +87,7 @@ export const products: ProductType[] = [
     price: 34.9,
     image: burgerImage,
     imageAlt: "Hambúrguer com bacon crocante",
-    category: "hamburgers",
+    category: "burger",
     tag: "Mais pedido",
   },
   {
@@ -90,7 +98,7 @@ export const products: ProductType[] = [
     price: 15.9,
     image: sideImage,
     imageAlt: "Porção de batatas fritas crocantes",
-    category: "acompanhamentos",
+    category: "batatas",
   },
   {
     id: 4,
@@ -100,7 +108,7 @@ export const products: ProductType[] = [
     price: 24.9,
     image: burgerImage,
     imageAlt: "Sanduíche artesanal de frango com bacon",
-    category: "hamburgers",
+    category: "burger",
   },
   {
     id: 5,
@@ -110,7 +118,7 @@ export const products: ProductType[] = [
     price: 25.9,
     image: sideImage,
     imageAlt: "Porção de nuggets crocantes",
-    category: "acompanhamentos",
+    category: "batatas",
   },
   {
     id: 6,
@@ -120,7 +128,7 @@ export const products: ProductType[] = [
     price: 24.9,
     image: burgerImage,
     imageAlt: "Sanduíche artesanal completo com frango e calabresa",
-    category: "hamburgers",
+    category: "burger",
   },
   {
     id: 7,
@@ -130,7 +138,7 @@ export const products: ProductType[] = [
     price: 24.9,
     image: burgerImage,
     imageAlt: "Sanduíche artesanal de calabresa com bacon",
-    category: "hamburgers",
+    category: "burger",
   },
   {
     id: 8,
