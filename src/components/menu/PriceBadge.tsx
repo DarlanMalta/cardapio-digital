@@ -11,7 +11,6 @@ type Props = {
 export default function PriceBadge({ price, compact = false }: Props) {
   return (
     <View style={[styles.badge, compact && styles.badgeCompact]}>
-      <Text style={styles.prefix}>POR</Text>
       <Text style={[styles.price, compact && styles.priceCompact]}>
         {formatPrice(price)}
       </Text>

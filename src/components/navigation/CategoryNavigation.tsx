@@ -1,5 +1,6 @@
 //BARRA HORIZONTAL DAS CATEGORIAS
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Pressable,
   ScrollView,
@@ -11,6 +12,12 @@ import {
 
 import type { CategoryId, CategoryType } from "../../data/products";
 import { colors, layout, radius, typography } from "../../theme";
+
+type CategoryLayout = {
+  width: number;
+};
+
+const CATEGORY_GAP = 8;
 
 type Props = {
   categories: readonly CategoryType[];
@@ -25,12 +32,59 @@ export default function CategoryNavigation({
   onSelectCategory,
   onLayout,
 }: Props) {
+  const navigationScrollRef = useRef<ScrollView>(null);
+  const categoryLayouts = useRef<
+    Partial<Record<CategoryId, CategoryLayout>>
+  >({});
+  const [navigationWidth, setNavigationWidth] = useState(0);
+
+  const centerCategory = useCallback(
+    (categoryId: CategoryId, animated = true) => {
+      const categoryLayout = categoryLayouts.current[categoryId];
+
+      if (!categoryLayout || navigationWidth === 0) {
+        return;
+      }
+
+      const categoryIndex = categories.findIndex(
+        (category) => category.id === categoryId,
+      );
+      const previousCategoriesWidth = categories
+        .slice(0, categoryIndex)
+        .reduce((total, category) => {
+          const measuredCategory = categoryLayouts.current[category.id];
+
+          return measuredCategory ? total + measuredCategory.width : total;
+        }, 0);
+      const categoryCenter =
+        layout.horizontalPadding +
+        previousCategoriesWidth +
+        categoryIndex * CATEGORY_GAP +
+        categoryLayout.width / 2;
+      const scrollPosition = categoryCenter - navigationWidth / 2;
+
+      navigationScrollRef.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated,
+      });
+    },
+    [categories, navigationWidth],
+  );
+
+  useEffect(() => {
+    centerCategory(activeCategory);
+  }, [activeCategory, centerCategory]);
+
   return (
     <View style={styles.container} onLayout={onLayout}>
       <View style={styles.frame}>
         <ScrollView
+          ref={navigationScrollRef}
           horizontal
           showsHorizontalScrollIndicator={false}
+          onLayout={(event) => {
+            setNavigationWidth(event.nativeEvent.layout.width);
+          }}
           contentContainerStyle={styles.content}
         >
           {categories.map((category, index) => {
@@ -40,6 +94,14 @@ export default function CategoryNavigation({
               <Pressable
                 key={category.id}
                 onPress={() => onSelectCategory(category.id)}
+                onLayout={(event) => {
+                  const { width } = event.nativeEvent.layout;
+                  categoryLayouts.current[category.id] = { width };
+
+                  if (category.id === activeCategory) {
+                    centerCategory(category.id, false);
+                  }
+                }}
                 accessibilityRole="button"
                 accessibilityLabel={`Ir para ${category.label}`}
                 accessibilityState={{ selected: isActive }}
@@ -88,7 +150,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: layout.horizontalPadding,
   },
   miniBrand: {
     width: 36,
@@ -113,9 +174,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     minHeight: layout.navigationHeight,
     alignItems: "center",
-    paddingRight: layout.horizontalPadding,
+    paddingHorizontal: layout.horizontalPadding,
     paddingVertical: 12,
-    gap: 8,
+    gap: CATEGORY_GAP,
   },
   chip: {
     minHeight: 43,

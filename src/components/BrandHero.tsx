@@ -48,15 +48,6 @@ export default function BrandHero({ onExplore }: Props) {
               <Text style={styles.brandDescriptor}>HAMBURGUERIA</Text>
             </View>
           </View>
-
-          <View style={styles.location}>
-            <MaterialCommunityIcons
-              name="map-marker-outline"
-              size={17}
-              color={colors.emberStrong}
-            />
-            <Text style={styles.locationText}>CONDEÚBA • BA</Text>
-          </View>
         </View>
 
         <View
@@ -107,11 +98,6 @@ export default function BrandHero({ onExplore }: Props) {
               accessible
               accessibilityLabel="Hambúrguer artesanal da Na Brasa"
             />
-
-            <View style={styles.qualityTag}>
-              <View style={styles.qualityDot} />
-              <Text style={styles.qualityText}>FEITO NO CAPRICHO</Text>
-            </View>
           </View>
         </View>
       </View>
@@ -155,7 +141,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     gap: spacing.md,
   },
   topbarNarrow: {

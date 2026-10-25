@@ -4,12 +4,7 @@ import sideImage from "../../assets/images/Acompanhamentos.jpg";
 import drinkImage from "../../assets/images/Bebidas.png";
 import burgerImage from "../../assets/images/Xburguer.png";
 
-export const categoryIds = [
-  "burger",
-  "combos",
-  "batatas",
-  "bebidas",
-] as const;
+export const categoryIds = ["burger", "combos", "batatas", "bebidas"] as const;
 
 export type CategoryId = (typeof categoryIds)[number];
 export type CategoryVariant = "paper" | "dark" | "compact";
@@ -18,7 +13,6 @@ export type CategoryType = {
   id: CategoryId;
   label: string;
   eyebrow: string;
-  description: string;
   variant: CategoryVariant;
 };
 
@@ -27,28 +21,24 @@ export const categories: readonly CategoryType[] = [
     id: "burger",
     label: "Burger",
     eyebrow: "Os protagonistas",
-    description: "Receitas feitas para chegar à mesa com presença.",
     variant: "paper",
   },
   {
     id: "combos",
     label: "Combos",
     eyebrow: "A experiência completa",
-    description: "Combinações da casa para aproveitar do começo ao fim.",
     variant: "dark",
   },
   {
     id: "batatas",
     label: "Batatas",
     eyebrow: "Pra dividir — ou não",
-    description: "Os extras que completam o rolê.",
     variant: "paper",
   },
   {
     id: "bebidas",
     label: "Bebidas",
     eyebrow: "Pra acompanhar",
-    description: "Geladas e no ponto para fechar o pedido.",
     variant: "compact",
   },
 ];
@@ -74,7 +64,7 @@ export const products: ProductType[] = [
       "Pão de brioche, burger de 145 g, cheddar em molho duplo, bacon em fatias, bacon triturado e molho da casa.",
     ingredients: [
       "Pão de brioche",
-      "Burger 145 g",
+      "Burger 145 gramas",
       "Cheddar em molho",
       "Bacon",
       "Molho da casa",
@@ -265,11 +255,7 @@ export const products: ProductType[] = [
     name: "Combo Romeu e Julieta",
     description:
       "Um Na Brasa, um Na Brasa Cheese e um refrigerante de 1 litro.",
-    ingredients: [
-      "1 Na Brasa",
-      "1 Na Brasa Cheese",
-      "Refrigerante 1 litro",
-    ],
+    ingredients: ["1 Na Brasa", "1 Na Brasa Cheese", "Refrigerante 1 litro"],
     price: 49.9,
     image: burgerImage,
     imageAlt: "Imagem demonstrativa do Combo Romeu e Julieta",
@@ -290,11 +276,7 @@ export const products: ProductType[] = [
     name: "Batata Simples 400 g",
     description:
       "Porção de batata frita simples de 400 g com molho Guedes e molho vermelho.",
-    ingredients: [
-      "Batata frita 400 g",
-      "Molho Guedes",
-      "Molho vermelho",
-    ],
+    ingredients: ["Batata frita 400 g", "Molho Guedes", "Molho vermelho"],
     price: 19.99,
     image: sideImage,
     imageAlt: "Imagem demonstrativa da Batata Simples 400 g",
