@@ -113,8 +113,8 @@ export default function ProductDetailsModal({
                 {product.name}
               </Text>
               <Text style={styles.price}>{formatPrice(product.price)}</Text>
-              <Text style={styles.description}>{product.description}</Text>
 
+              <Text style={styles.ingredientsLabel}>INGREDIENTES</Text>
               <View style={styles.ingredients}>
                 {product.ingredients.map((ingredient) => (
                   <IngredientChip key={ingredient} label={ingredient} />
@@ -293,13 +293,6 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     fontWeight: "900",
     letterSpacing: -0.8,
-  },
-  description: {
-    marginTop: 18,
-    color: colors.textOnPaperMuted,
-    fontFamily: typography.body,
-    fontSize: 15,
-    lineHeight: 23,
   },
   ingredientsLabel: {
     marginTop: 27,

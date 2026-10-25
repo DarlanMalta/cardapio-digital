@@ -56,7 +56,6 @@ export default function MenuSection({
           >
             {category.label}
           </Text>
-          <Text style={styles.description}>{category.description}</Text>
         </View>
 
         <View style={[styles.count, isNarrow && styles.countNarrow]}>
@@ -171,14 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 27,
     letterSpacing: -1,
-  },
-  description: {
-    maxWidth: 540,
-    marginTop: 9,
-    color: "rgba(255, 255, 255, 0.7)",
-    fontFamily: typography.body,
-    fontSize: 14,
-    lineHeight: 21,
   },
   count: {
     minWidth: 72,

@@ -9,7 +9,6 @@ import {
 
 import type { ProductType } from "../data/products";
 import { colors, radius, spacing, typography } from "../theme";
-import IngredientChip from "./menu/IngredientChip";
 import PriceBadge from "./menu/PriceBadge";
 
 type Props = {
@@ -80,12 +79,6 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
           {product.name}
         </Text>
         <Text style={styles.description}>{product.description}</Text>
-
-        <View style={styles.ingredients}>
-          {product.ingredients.slice(0, 4).map((ingredient) => (
-            <IngredientChip key={ingredient} label={ingredient} tone="paper" />
-          ))}
-        </View>
 
         <View style={styles.detailsLink}>
           <Text style={styles.detailsLinkText}>VER DE PERTO</Text>
@@ -218,12 +211,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.body,
     fontSize: 14,
     lineHeight: 21,
-  },
-  ingredients: {
-    marginTop: 17,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 7,
   },
   detailsLink: {
     alignSelf: "flex-start",
