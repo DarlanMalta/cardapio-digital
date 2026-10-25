@@ -6,10 +6,7 @@ import {
   type LayoutChangeEvent,
 } from "react-native";
 
-import type {
-  CategoryType,
-  ProductType,
-} from "../../data/products";
+import type { CategoryType, ProductType } from "../../data/products";
 import { colors, radius, spacing, typography } from "../../theme";
 import ProductCard from "../ProductCard";
 
@@ -30,90 +27,43 @@ export default function MenuSection({
 }: Props) {
   const { width } = useWindowDimensions();
   const isNarrow = width <= 420;
-  const isDark = category.variant === "dark";
-  const isAccent = category.variant === "compact";
-  const usesLightText = isDark || isAccent;
+  const usesCompactGrid = category.variant === "compact";
   const usesCompactTitle = isNarrow && category.label.length > 13;
   const itemLabel = products.length === 1 ? "item" : "itens";
 
   return (
-    <View
-      style={[
-        styles.section,
-        isDark && styles.sectionDark,
-        isAccent && styles.sectionAccent,
-        isNarrow && usesLightText && styles.sectionNarrow,
-      ]}
-      onLayout={onLayout}
-    >
-      <View style={[styles.heading, isNarrow && styles.headingNarrow]}>
+    <View style={styles.section} onLayout={onLayout}>
+      <View
+        style={[styles.categoryHeader, isNarrow && styles.categoryHeaderNarrow]}
+      >
         <View
           style={[styles.headingCopy, isNarrow && styles.headingCopyNarrow]}
         >
           <View style={styles.eyebrowRow}>
-            <Text
-              style={[
-                styles.sectionIndex,
-                usesLightText && styles.sectionIndexLight,
-              ]}
-            >
+            <Text style={styles.sectionIndex}>
               {String(categoryIndex + 1).padStart(2, "0")}
             </Text>
-            <Text
-              style={[
-                styles.eyebrow,
-                usesLightText && styles.eyebrowLight,
-              ]}
-            >
-              {category.eyebrow}
-            </Text>
+            <Text style={styles.eyebrow}>{category.eyebrow}</Text>
           </View>
 
           <Text
             accessibilityRole="header"
             style={[
               styles.title,
-              usesLightText && styles.titleLight,
               isNarrow && styles.titleNarrow,
               usesCompactTitle && styles.titleCompactNarrow,
             ]}
           >
             {category.label}
           </Text>
-          <Text
-            style={[
-              styles.description,
-              usesLightText && styles.descriptionLight,
-            ]}
-          >
-            {category.description}
-          </Text>
+          <Text style={styles.description}>{category.description}</Text>
         </View>
 
-        <View
-          style={[
-            styles.count,
-            usesLightText && styles.countLight,
-            isNarrow && styles.countNarrow,
-            isNarrow && usesLightText && styles.countNarrowLight,
-          ]}
-        >
-          <Text
-            style={[
-              styles.countValue,
-              usesLightText && styles.countValueLight,
-            ]}
-          >
+        <View style={[styles.count, isNarrow && styles.countNarrow]}>
+          <Text style={styles.countValue}>
             {String(products.length).padStart(2, "0")}
           </Text>
-          <Text
-            style={[
-              styles.countLabel,
-              usesLightText && styles.countLabelLight,
-            ]}
-          >
-            {itemLabel}
-          </Text>
+          <Text style={styles.countLabel}>{itemLabel}</Text>
         </View>
       </View>
 
@@ -123,14 +73,13 @@ export default function MenuSection({
             key={product.id}
             style={[
               styles.productSlot,
-              isAccent && styles.productSlotCompact,
+              usesCompactGrid && styles.productSlotCompact,
               isNarrow && styles.productSlotNarrow,
             ]}
           >
             <ProductCard
               product={product}
               productIndex={productIndex}
-              variant={category.variant}
               onPress={onSelectProduct}
             />
           </View>
@@ -145,29 +94,30 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: spacing.section,
   },
-  sectionDark: {
-    paddingVertical: spacing.xl,
+  categoryHeader: {
+    marginBottom: spacing.xxl,
+    paddingVertical: spacing.lg,
     paddingHorizontal: spacing.lg,
-    borderRadius: radius.lg,
-    backgroundColor: colors.ink,
-  },
-  sectionAccent: {
-    paddingVertical: spacing.xl,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.lg,
-    backgroundColor: colors.ember,
-  },
-  sectionNarrow: {
-    paddingHorizontal: spacing.sm,
-  },
-  heading: {
-    marginBottom: 30,
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
     gap: spacing.lg,
+    backgroundColor: colors.ink,
+    borderWidth: 1,
+    borderLeftWidth: 5,
+    borderColor: colors.borderDark,
+    borderLeftColor: colors.emberStrong,
+    borderRadius: radius.md,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
+    elevation: 3,
   },
-  headingNarrow: {
+  categoryHeaderNarrow: {
+    marginBottom: 48,
+    paddingVertical: 20,
+    paddingHorizontal: spacing.md,
     flexDirection: "column",
     alignItems: "flex-start",
     gap: spacing.md,
@@ -186,18 +136,15 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   sectionIndex: {
-    color: colors.emberDark,
+    color: colors.paperStrong,
     fontFamily: typography.body,
     fontSize: 10,
     lineHeight: 13,
     fontWeight: "900",
     letterSpacing: 1.3,
   },
-  sectionIndexLight: {
-    color: colors.paperStrong,
-  },
   eyebrow: {
-    color: colors.textOnPaperMuted,
+    color: "rgba(255, 255, 255, 0.66)",
     fontFamily: typography.body,
     fontSize: 10,
     lineHeight: 13,
@@ -205,21 +152,15 @@ const styles = StyleSheet.create({
     letterSpacing: typography.labelLetterSpacing,
     textTransform: "uppercase",
   },
-  eyebrowLight: {
-    color: "rgba(255, 255, 255, 0.66)",
-  },
   title: {
     marginTop: 10,
-    color: colors.textOnPaper,
+    color: colors.white,
     fontFamily: typography.display,
     fontSize: 42,
     lineHeight: 46,
     fontWeight: "900",
     letterSpacing: -1.8,
     textTransform: "uppercase",
-  },
-  titleLight: {
-    color: colors.white,
   },
   titleNarrow: {
     fontSize: 27,
@@ -234,22 +175,16 @@ const styles = StyleSheet.create({
   description: {
     maxWidth: 540,
     marginTop: 9,
-    color: colors.textOnPaperMuted,
+    color: "rgba(255, 255, 255, 0.7)",
     fontFamily: typography.body,
     fontSize: 14,
     lineHeight: 21,
-  },
-  descriptionLight: {
-    color: "rgba(255, 255, 255, 0.7)",
   },
   count: {
     minWidth: 72,
     alignItems: "flex-end",
     paddingLeft: spacing.md,
     borderLeftWidth: 1,
-    borderLeftColor: colors.borderPaper,
-  },
-  countLight: {
     borderLeftColor: "rgba(255, 255, 255, 0.22)",
   },
   countNarrow: {
@@ -261,34 +196,25 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingLeft: 0,
     borderTopWidth: 1,
-    borderTopColor: colors.borderPaper,
+    borderTopColor: "rgba(255, 255, 255, 0.22)",
     borderLeftWidth: 0,
   },
-  countNarrowLight: {
-    borderTopColor: "rgba(255, 255, 255, 0.22)",
-  },
   countValue: {
-    color: colors.textOnPaper,
+    color: colors.white,
     fontFamily: typography.display,
     fontSize: 27,
     lineHeight: 30,
     fontWeight: "900",
   },
-  countValueLight: {
-    color: colors.white,
-  },
   countLabel: {
     marginTop: 1,
-    color: colors.textOnPaperMuted,
+    color: "rgba(255, 255, 255, 0.62)",
     fontFamily: typography.body,
     fontSize: 9,
     lineHeight: 12,
     fontWeight: "800",
     letterSpacing: 1.1,
     textTransform: "uppercase",
-  },
-  countLabelLight: {
-    color: "rgba(255, 255, 255, 0.62)",
   },
   productGrid: {
     width: "100%",

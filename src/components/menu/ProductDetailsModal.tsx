@@ -103,7 +103,6 @@ export default function ProductDetailsModal({
             </View>
 
             <View style={[styles.info, isNarrow && styles.infoNarrow]}>
-              <Text style={styles.eyebrow}>ESCOLHA DA VEZ</Text>
               <Text
                 style={[
                   styles.name,
@@ -116,7 +115,6 @@ export default function ProductDetailsModal({
               <Text style={styles.price}>{formatPrice(product.price)}</Text>
               <Text style={styles.description}>{product.description}</Text>
 
-              <Text style={styles.ingredientsLabel}>VEM COM</Text>
               <View style={styles.ingredients}>
                 {product.ingredients.map((ingredient) => (
                   <IngredientChip key={ingredient} label={ingredient} />
