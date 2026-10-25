@@ -30,7 +30,6 @@ export default function BrandHero({ onExplore }: Props) {
       resizeMode="cover"
     >
       <View style={styles.overlay} />
-      ///
       <View style={[styles.content, isNarrow && styles.contentNarrow]}>
         <View style={[styles.topbar, isNarrow && styles.topbarNarrow]}>
           <View style={styles.brandRow}>
@@ -96,7 +95,7 @@ export default function BrandHero({ onExplore }: Props) {
               style={[styles.burger, isMobile && styles.burgerMobile]}
               resizeMode="contain"
               accessible
-              accessibilityLabel="Hambúrguer artesanal da Na Brasa"
+              accessibilityLabel="Burguer artesanal da Na Brasa"
             />
           </View>
         </View>
@@ -164,14 +163,6 @@ const styles = StyleSheet.create({
     borderColor: colors.emberStrong,
     transform: [{ rotate: "-6deg" }],
   },
-  brandMonogram: {
-    color: colors.white,
-    fontFamily: typography.display,
-    fontSize: 17,
-    lineHeight: 20,
-    fontWeight: "900",
-    letterSpacing: -1.4,
-  },
   brandName: {
     color: colors.text,
     fontFamily: typography.display,
@@ -188,25 +179,6 @@ const styles = StyleSheet.create({
     lineHeight: 11,
     fontWeight: "800",
     letterSpacing: 3.1,
-  },
-  location: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 11,
-    borderWidth: 1,
-    borderColor: colors.borderDark,
-    borderRadius: radius.pill,
-    backgroundColor: "rgba(11, 10, 9, 0.72)",
-  },
-  locationText: {
-    color: colors.text,
-    fontFamily: typography.body,
-    fontSize: 9,
-    lineHeight: 12,
-    fontWeight: "800",
-    letterSpacing: 1.2,
   },
   main: {
     width: "100%",
@@ -271,14 +243,6 @@ const styles = StyleSheet.create({
   },
   titleAccent: {
     color: colors.ember,
-  },
-  description: {
-    maxWidth: 430,
-    marginTop: 22,
-    color: colors.textMuted,
-    fontFamily: typography.body,
-    fontSize: 15,
-    lineHeight: 23,
   },
   button: {
     minHeight: 50,
@@ -362,52 +326,5 @@ const styles = StyleSheet.create({
   burgerMobile: {
     width: "100%",
     height: 280,
-  },
-  qualityTag: {
-    position: "absolute",
-    right: 4,
-    bottom: 28,
-    zIndex: 4,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingVertical: 9,
-    paddingHorizontal: 13,
-    borderRadius: radius.pill,
-    backgroundColor: colors.paperStrong,
-  },
-  qualityDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: colors.ember,
-  },
-  qualityText: {
-    color: colors.textOnPaper,
-    fontFamily: typography.body,
-    fontSize: 9,
-    lineHeight: 12,
-    fontWeight: "900",
-    letterSpacing: 1.2,
-  },
-  footerLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 12,
-  },
-  footerText: {
-    color: colors.textMuted,
-    fontFamily: typography.body,
-    fontSize: 8,
-    lineHeight: 11,
-    fontWeight: "800",
-    letterSpacing: 1.6,
-  },
-  footerDivider: {
-    width: 3,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: colors.ember,
   },
 });

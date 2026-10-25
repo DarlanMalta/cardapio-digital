@@ -19,7 +19,7 @@ export type CategoryType = {
 export const categories: readonly CategoryType[] = [
   {
     id: "burger",
-    label: "Burger",
+    label: "Burguer",
     eyebrow: "Os protagonistas",
     variant: "paper",
   },
@@ -50,10 +50,7 @@ export type ProductType = {
   ingredients: readonly string[];
   price: number;
   image: ImageSourcePropType;
-  imageAlt: string;
   category: CategoryId;
-  tag?: string;
-  featured?: boolean;
 };
 
 export const products: ProductType[] = [
@@ -61,82 +58,79 @@ export const products: ProductType[] = [
     id: 1,
     name: "Na Brasa Pig",
     description:
-      "Pão de brioche, burger de 145 g, cheddar em molho duplo, bacon em fatias, bacon triturado e molho da casa.",
+      "Pão de brioche, burguer de 145 gramas, cheddar em molho duplo, bacon em fatias, bacon triturado e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Burger 145 gramas",
-      "Cheddar em molho",
-      "Bacon",
-      "Molho da casa",
+      "Burguer 145 g",
+      "Cheddar em molho duplo",
+      "Bacon em fatias",
+      "Bacon triturado",
+      "Molho Guedes",
     ],
     price: 24.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Na Brasa Pig",
     category: "burger",
   },
   {
     id: 2,
     name: "Supremo Cheese",
     description:
-      "Pão de brioche, burger de 145 g, cream cheese empanado de 110 g, rúcula e molho da casa.",
+      "Pão de brioche, burguer de 145 gramas, cream cheese empanado de 110 gramas, rúcula e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Burger 145 g",
-      "Cream cheese 110 g",
+      "Burguer 145 g",
+      "Cream cheese empanado 110 g",
       "Farinha panko",
       "Rúcula",
-      "Molho da casa",
+      "Molho Guedes",
     ],
     price: 31.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Supremo Cheese",
     category: "burger",
   },
   {
     id: 3,
     name: "Na Brasa Cheese",
     description:
-      "Pão de brioche, blend de 145 g, cream cheese, bacon, cebola caramelizada e molho da casa.",
+      "Pão de brioche, burguer de 145 gramas, cream cheese, bacon, cebola caramelizada e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Blend 145 g",
+      "Burguer 145 g",
       "Cream cheese",
       "Bacon",
       "Cebola caramelizada",
-      "Molho da casa",
+      "Molho Guedes",
     ],
     price: 22.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Na Brasa Cheese",
     category: "burger",
   },
   {
     id: 4,
     name: "Cuiudu Triplo",
     description:
-      "Pão de brioche, três hambúrgueres de 145 g, cheddar triplo, cream cheese, cebola roxa, bacon e molho da casa.",
+      "Pão de brioche, três burguers de 145 gramas, cheddar triplo, cream cheese, cebola roxa, bacon e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "3 hambúrgueres de 145 g",
+      "3 burguers de 145 g",
       "Cheddar triplo",
       "Cream cheese",
       "Cebola roxa",
       "Bacon",
-      "Molho da casa",
+      "Molho Guedes",
     ],
     price: 37.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Cuiudu Triplo",
     category: "burger",
   },
   {
     id: 5,
     name: "Prime Salad",
     description:
-      "Pão artesanal, blend de 150 g, queijo muçarela, bacon, cream cheese, salada e molho Guedes.",
+      "Pão artesanal, burguer de 150 gramas, queijo muçarela, bacon, cream cheese, salada e molho Guedes.",
     ingredients: [
       "Pão artesanal",
-      "Blend 150 g",
+      "Burguer 150 g",
       "Queijo muçarela",
       "Bacon",
       "Cream cheese",
@@ -145,17 +139,16 @@ export const products: ProductType[] = [
     ],
     price: 22.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Prime Salad",
     category: "burger",
   },
   {
     id: 6,
     name: "Cuiudu",
     description:
-      "Pão de brioche, dois blends de 150 g, cheddar triplo, bacon, cream cheese, cebola roxa e molho Guedes.",
+      "Pão de brioche, dois burguers de 150 gramas, cheddar triplo, bacon, cream cheese, cebola roxa e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "2 blends de 150 g",
+      "2 burguers de 150 g",
       "Cheddar triplo",
       "Bacon",
       "Cream cheese",
@@ -164,17 +157,16 @@ export const products: ProductType[] = [
     ],
     price: 29.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Cuiudu",
     category: "burger",
   },
   {
     id: 7,
     name: "Na Brasa",
     description:
-      "Pão de brioche, blend de 150 g, bacon, cheddar, cebola caramelizada e molho Guedes.",
+      "Pão de brioche, burguer de 150 gramas, bacon, cheddar, cebola caramelizada e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Blend 150 g",
+      "Burguer 150 g",
       "Bacon",
       "Cheddar",
       "Cebola caramelizada",
@@ -182,72 +174,67 @@ export const products: ProductType[] = [
     ],
     price: 22.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Na Brasa",
     category: "burger",
   },
   {
     id: 8,
     name: "Caribe",
     description:
-      "Pão de brioche, blend de 150 g, queijo muçarela, cream cheese, abacaxi caramelizado e molho da casa.",
+      "Pão de brioche, burguer de 150 gramas, queijo muçarela, cream cheese, abacaxi caramelizado e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Blend 150 g",
+      "Burguer 150 g",
       "Queijo muçarela",
       "Cream cheese",
       "Abacaxi caramelizado",
-      "Molho da casa",
+      "Molho Guedes",
     ],
     price: 24.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Caribe",
     category: "burger",
   },
   {
     id: 9,
     name: "Brasaguete",
     description:
-      "Pão estilo baguete, calabresa Josefina, molho barbecue, molho da casa, queijo muçarela, cream cheese e bacon.",
+      "Pão estilo baguete, calabresa Josefina, molho barbecue, molho Guedes, queijo muçarela, cream cheese e bacon.",
     ingredients: [
-      "Pão baguete",
+      "Pão estilo baguete",
       "Calabresa Josefina",
       "Molho barbecue",
-      "Molho da casa",
+      "Molho Guedes",
       "Queijo muçarela",
       "Cream cheese",
       "Bacon",
     ],
     price: 18.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Brasaguete",
     category: "burger",
   },
   {
     id: 10,
     name: "Na Brasa Rings",
     description:
-      "Pão de brioche, burger de 145 g, cream cheese, onion rings, molho tarê e molho da casa.",
+      "Pão de brioche, burguer de 145 gramas, cream cheese, onion rings, molho tarê e molho Guedes.",
     ingredients: [
       "Pão de brioche",
-      "Burger 145 g",
+      "Burguer 145 g",
       "Cream cheese",
       "Onion rings",
       "Molho tarê",
-      "Molho da casa",
+      "Molho Guedes",
     ],
     price: 21.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Na Brasa Rings",
     category: "burger",
   },
   {
     id: 11,
     name: "Combo Cuiudu",
-    description: "Um Cuiudu com batata de 200 g, cheddar e bacon.",
-    ingredients: ["1 Cuiudu", "Batata 200 g", "Cheddar", "Bacon"],
+    description: "Um Cuiudu com batata de 200 gramas, cheddar e bacon.",
+    ingredients: ["1 Cuiudu", "Batata frita 200 g", "Cheddar", "Bacon"],
     price: 39.99,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Combo Cuiudu",
     category: "combos",
   },
   {
@@ -258,35 +245,32 @@ export const products: ProductType[] = [
     ingredients: ["1 Na Brasa", "1 Na Brasa Cheese", "Refrigerante 1 litro"],
     price: 49.9,
     image: burgerImage,
-    imageAlt: "Imagem demonstrativa do Combo Romeu e Julieta",
     category: "combos",
   },
   {
     id: 13,
     name: "Batata Simples 200 g",
-    description: "Porção de batata frita simples de 200 g.",
+    description: "Porção de batata frita simples de 200 gramas.",
     ingredients: ["Batata frita 200 g"],
     price: 16.99,
     image: sideImage,
-    imageAlt: "Imagem demonstrativa da Batata Simples 200 g",
     category: "batatas",
   },
   {
     id: 14,
     name: "Batata Simples 400 g",
     description:
-      "Porção de batata frita simples de 400 g com molho Guedes e molho vermelho.",
+      "Porção de batata frita simples de 400 gramas com molho Guedes e molho vermelho.",
     ingredients: ["Batata frita 400 g", "Molho Guedes", "Molho vermelho"],
     price: 19.99,
     image: sideImage,
-    imageAlt: "Imagem demonstrativa da Batata Simples 400 g",
     category: "batatas",
   },
   {
     id: 15,
     name: "Batata Completa 200 g",
     description:
-      "Batata frita de 200 g com cheddar, bacon, molho Guedes e molho vermelho.",
+      "Batata frita de 200 gramas com cheddar, bacon, molho Guedes e molho vermelho.",
     ingredients: [
       "Batata frita 200 g",
       "Cheddar",
@@ -296,14 +280,13 @@ export const products: ProductType[] = [
     ],
     price: 19.99,
     image: sideImage,
-    imageAlt: "Imagem demonstrativa da Batata Completa 200 g",
     category: "batatas",
   },
   {
     id: 16,
     name: "Batata Completa 400 g",
     description:
-      "Batata frita de 400 g com cheddar, bacon, molho Guedes e molho vermelho.",
+      "Batata frita de 400 gramas com cheddar, bacon, molho Guedes e molho vermelho.",
     ingredients: [
       "Batata frita 400 g",
       "Cheddar",
@@ -313,7 +296,6 @@ export const products: ProductType[] = [
     ],
     price: 24.99,
     image: sideImage,
-    imageAlt: "Imagem demonstrativa da Batata Completa 400 g",
     category: "batatas",
   },
   {
@@ -323,7 +305,6 @@ export const products: ProductType[] = [
     ingredients: ["Lata"],
     price: 6,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida em lata",
     category: "bebidas",
   },
   {
@@ -333,7 +314,6 @@ export const products: ProductType[] = [
     ingredients: ["Lata", "Zero açúcar"],
     price: 6,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida em lata",
     category: "bebidas",
   },
   {
@@ -343,7 +323,6 @@ export const products: ProductType[] = [
     ingredients: ["Lata"],
     price: 6,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida em lata",
     category: "bebidas",
   },
   {
@@ -353,7 +332,6 @@ export const products: ProductType[] = [
     ingredients: ["Lata", "Zero açúcar"],
     price: 6,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida em lata",
     category: "bebidas",
   },
   {
@@ -363,7 +341,6 @@ export const products: ProductType[] = [
     ingredients: ["1 litro", "Zero açúcar"],
     price: 9.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida de 1 litro",
     category: "bebidas",
   },
   {
@@ -373,7 +350,6 @@ export const products: ProductType[] = [
     ingredients: ["1 litro"],
     price: 9.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida de 1 litro",
     category: "bebidas",
   },
   {
@@ -383,7 +359,6 @@ export const products: ProductType[] = [
     ingredients: ["1 litro"],
     price: 9.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de bebida de 1 litro",
     category: "bebidas",
   },
   {
@@ -393,7 +368,6 @@ export const products: ProductType[] = [
     ingredients: ["Açaí"],
     price: 14.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de shake de açaí",
     category: "bebidas",
   },
   {
@@ -403,7 +377,6 @@ export const products: ProductType[] = [
     ingredients: ["Morango", "Leite"],
     price: 14.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de suco de morango com leite",
     category: "bebidas",
   },
   {
@@ -413,7 +386,6 @@ export const products: ProductType[] = [
     ingredients: ["Morango"],
     price: 11.99,
     image: drinkImage,
-    imageAlt: "Imagem demonstrativa de suco de morango",
     category: "bebidas",
   },
 ];

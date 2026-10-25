@@ -110,7 +110,7 @@ export default function FeaturedCampaign({
           style={styles.image}
           resizeMode="contain"
           accessible
-          accessibilityLabel={product.imageAlt}
+          accessibilityLabel={`Imagem de ${product.name}`}
         />
       </View>
     </Pressable>

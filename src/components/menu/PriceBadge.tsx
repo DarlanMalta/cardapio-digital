@@ -40,14 +40,6 @@ const styles = StyleSheet.create({
     height: 76,
     borderRadius: 38,
   },
-  prefix: {
-    color: colors.white,
-    fontFamily: typography.body,
-    fontSize: 8,
-    lineHeight: 10,
-    fontWeight: "900",
-    letterSpacing: 1.4,
-  },
   price: {
     marginTop: 1,
     color: colors.white,

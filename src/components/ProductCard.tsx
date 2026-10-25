@@ -22,6 +22,7 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
   const isMobile = width < 560;
   const isNarrow = width <= 360;
   const useCoverImage = !["burger", "combos"].includes(product.category);
+  const showDescription = product.category !== "bebidas";
 
   return (
     <Pressable
@@ -42,18 +43,12 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
           {String(productIndex + 1).padStart(2, "0")}
         </Text>
 
-        {product.tag ? (
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>{product.tag}</Text>
-          </View>
-        ) : null}
-
         <Image
           source={product.image}
           style={styles.image}
           resizeMode={useCoverImage ? "cover" : "contain"}
           accessible
-          accessibilityLabel={product.imageAlt}
+          accessibilityLabel={`Imagem de ${product.name}`}
         />
 
         <View style={styles.pricePosition} pointerEvents="none">
@@ -78,7 +73,9 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
         >
           {product.name}
         </Text>
-        <Text style={styles.description}>{product.description}</Text>
+        {showDescription && (
+          <Text style={styles.description}>{product.description}</Text>
+        )}
 
         <View style={styles.detailsLink}>
           <Text style={styles.detailsLinkText}>VER DE PERTO</Text>
@@ -131,27 +128,6 @@ const styles = StyleSheet.create({
     lineHeight: 164,
     fontWeight: "900",
     letterSpacing: -12,
-  },
-  tag: {
-    position: "absolute",
-    top: spacing.md,
-    left: spacing.md,
-    zIndex: 3,
-    paddingVertical: 7,
-    paddingHorizontal: 11,
-    borderRadius: radius.pill,
-    backgroundColor: colors.paperStrong,
-    borderWidth: 1,
-    borderColor: colors.borderPaper,
-  },
-  tagText: {
-    color: colors.textOnPaper,
-    fontFamily: typography.body,
-    fontSize: 9,
-    lineHeight: 12,
-    fontWeight: "900",
-    letterSpacing: 1,
-    textTransform: "uppercase",
   },
   image: {
     width: "100%",

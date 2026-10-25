@@ -41,6 +41,7 @@ export default function ProductDetailsModal({
   }
 
   const useCoverImage = !["burger", "combos"].includes(product.category);
+  const showIngredients = product.category !== "bebidas";
 
   return (
     <Modal
@@ -98,7 +99,7 @@ export default function ProductDetailsModal({
                 style={styles.image}
                 resizeMode={useCoverImage ? "cover" : "contain"}
                 accessible
-                accessibilityLabel={product.imageAlt}
+                accessibilityLabel={`Imagem de ${product.name}`}
               />
             </View>
 
@@ -114,12 +115,16 @@ export default function ProductDetailsModal({
               </Text>
               <Text style={styles.price}>{formatPrice(product.price)}</Text>
 
-              <Text style={styles.ingredientsLabel}>INGREDIENTES</Text>
-              <View style={styles.ingredients}>
-                {product.ingredients.map((ingredient) => (
-                  <IngredientChip key={ingredient} label={ingredient} />
-                ))}
-              </View>
+              {showIngredients && (
+                <>
+                  <Text style={styles.ingredientsLabel}>INGREDIENTES</Text>
+                  <View style={styles.ingredients}>
+                    {product.ingredients.map((ingredient) => (
+                      <IngredientChip key={ingredient} label={ingredient} />
+                    ))}
+                  </View>
+                </>
+              )}
 
               <View style={styles.navigation}>
                 <Pressable
@@ -259,14 +264,6 @@ const styles = StyleSheet.create({
     minWidth: 0,
     padding: spacing.lg,
   },
-  eyebrow: {
-    color: colors.emberDark,
-    fontFamily: typography.body,
-    fontSize: 10,
-    lineHeight: 13,
-    fontWeight: "900",
-    letterSpacing: 1.8,
-  },
   name: {
     marginTop: 11,
     color: colors.textOnPaper,
@@ -308,19 +305,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 7,
-  },
-  disclaimer: {
-    marginTop: 24,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 8,
-  },
-  disclaimerText: {
-    flex: 1,
-    color: colors.textOnPaperMuted,
-    fontFamily: typography.body,
-    fontSize: 11,
-    lineHeight: 16,
   },
   navigation: {
     marginTop: 28,
