@@ -35,7 +35,12 @@ export default function BrandHero({ onExplore }: Props) {
         <View style={[styles.topbar, isNarrow && styles.topbarNarrow]}>
           <View style={styles.brandRow}>
             <View style={styles.brandMark}>
-              <Text style={styles.brandMonogram}>NB</Text>
+              <MaterialCommunityIcons
+                name="hamburger"
+                size={24}
+                color={colors.white}
+                style={styles.brandIcon}
+              />
             </View>
 
             <View>
@@ -64,7 +69,7 @@ export default function BrandHero({ onExplore }: Props) {
           <View style={[styles.copy, isMobile && styles.copyMobile]}>
             <View style={styles.eyebrowRow}>
               <View style={styles.eyebrowLine} />
-              <Text style={styles.eyebrow}>SABOR DE VERDADE</Text>
+              <Text style={styles.eyebrow}>SÓ PROCEDIMENTO</Text>
             </View>
 
             <Text style={[styles.title, isMobile && styles.titleMobile]}>
@@ -105,7 +110,7 @@ export default function BrandHero({ onExplore }: Props) {
 
             <View style={styles.qualityTag}>
               <View style={styles.qualityDot} />
-              <Text style={styles.qualityText}>FEITO PARA VOCÊ</Text>
+              <Text style={styles.qualityText}>FEITO NO CAPRICHO</Text>
             </View>
           </View>
         </View>
@@ -121,6 +126,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: colors.ink,
   },
+  brandIcon: {
+    // Compensa a rotação de -6 graus aplicada ao círculo.
+    transform: [{ rotate: "6deg" }],
+  },
+
   backgroundImage: {
     opacity: 0.56,
   },

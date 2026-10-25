@@ -30,7 +30,7 @@ export default function ProductCard({
   const isNarrow = width <= 360;
   const isDark = variant === "dark";
   const isAccent = variant === "compact";
-  const useCoverImage = product.category !== "burger";
+  const useCoverImage = !["burger", "combos"].includes(product.category);
 
   return (
     <Pressable

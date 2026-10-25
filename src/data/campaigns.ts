@@ -1,24 +1,19 @@
-import type { ImageSourcePropType } from "react-native";
-
-import burgerImage from "../../assets/images/Xburguer.png";
-
 export type CampaignType = {
   id: string;
+  productId: number;
+  badge: string;
   eyebrow: string;
   title: string;
-  description: string;
-  image: ImageSourcePropType;
-  imageAlt: string;
+  ctaLabel: string;
   active: boolean;
 };
 
 export const featuredCampaign: CampaignType = {
-  id: "weekly-feature-preview",
-  eyebrow: "Espaço para novidades",
-  title: "Toda semana pode ter um motivo novo para voltar.",
-  description:
-    "Área demonstrativa preparada para combos, lançamentos e campanhas especiais.",
-  image: burgerImage,
-  imageAlt: "Prévia de um hambúrguer em destaque",
+  id: "signature-na-brasa",
+  productId: 4,
+  badge: "Escolha da casa",
+  eyebrow: "Se é a primeira vez",
+  title: "Comece pelo Cuiudu triplo.",
+  ctaLabel: "Ver detalhes",
   active: true,
 };

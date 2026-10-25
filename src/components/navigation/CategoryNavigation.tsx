@@ -28,10 +28,6 @@ export default function CategoryNavigation({
   return (
     <View style={styles.container} onLayout={onLayout}>
       <View style={styles.frame}>
-        <View style={styles.miniBrand} accessibilityElementsHidden>
-          <Text style={styles.miniBrandText}>NB</Text>
-        </View>
-
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

@@ -40,7 +40,7 @@ export default function ProductDetailsModal({
     return null;
   }
 
-  const useCoverImage = product.category !== "burger";
+  const useCoverImage = !["burger", "combos"].includes(product.category);
 
   return (
     <Modal
@@ -121,17 +121,6 @@ export default function ProductDetailsModal({
                 {product.ingredients.map((ingredient) => (
                   <IngredientChip key={ingredient} label={ingredient} />
                 ))}
-              </View>
-
-              <View style={styles.disclaimer}>
-                <MaterialCommunityIcons
-                  name="information-outline"
-                  size={17}
-                  color={colors.textOnPaperMuted}
-                />
-                <Text style={styles.disclaimerText}>
-                  Imagem e informações provisórias para apresentação visual.
-                </Text>
               </View>
 
               <View style={styles.navigation}>

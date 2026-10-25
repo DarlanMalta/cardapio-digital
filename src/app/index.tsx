@@ -35,6 +35,9 @@ export default function Index() {
   const menuListPosition = useRef(0);
   const categoryNavigationHeight = useRef(0);
   const categoryPositions = useRef<CategoryPositions>({});
+  const featuredProduct = products.find(
+    (product) => product.id === featuredCampaign.productId,
+  );
 
   const scrollToMenu = () => {
     menuScrollRef.current?.scrollTo({
@@ -148,12 +151,15 @@ export default function Index() {
               <View style={styles.introductionRule} />
               <Text style={styles.menuEyebrow}>NOSSO CARDÁPIO</Text>
               <Text style={styles.menuTitle}>Qual vai ser o de hoje?</Text>
-              <Text style={styles.menuDescription}>
-                Navegue pelas categorias e conheça as opções disponíveis.
-              </Text>
             </View>
 
-            <FeaturedCampaign campaign={featuredCampaign} />
+            {featuredProduct ? (
+              <FeaturedCampaign
+                campaign={featuredCampaign}
+                product={featuredProduct}
+                onSelectProduct={setSelectedProduct}
+              />
+            ) : null}
 
             {categories.map((category, categoryIndex) => {
               const categoryProducts = products.filter(
@@ -269,15 +275,6 @@ const styles = StyleSheet.create({
     letterSpacing: -1.9,
     textAlign: "center",
     textTransform: "uppercase",
-  },
-  menuDescription: {
-    maxWidth: 560,
-    marginTop: 12,
-    color: colors.textOnPaperMuted,
-    fontFamily: typography.body,
-    fontSize: 14,
-    lineHeight: 22,
-    textAlign: "center",
   },
   footer: {
     width: "100%",
