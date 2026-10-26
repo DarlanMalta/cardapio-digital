@@ -2,18 +2,16 @@ export type CampaignType = {
   id: string;
   productId: number;
   badge: string;
-  eyebrow: string;
-  title: string;
+  description: string;
   ctaLabel: string;
   active: boolean;
 };
 
 export const featuredCampaign: CampaignType = {
   id: "signature-na-brasa",
-  productId: 4,
-  badge: "Escolha da casa",
-  eyebrow: "Se é a primeira vez",
-  title: "Comece pelo Cuiudu triplo.",
-  ctaLabel: "Ver detalhes",
+  productId: 7,
+  badge: "Destaque da casa",
+  description: "Bacon, cheddar, cebola caramelizada e molho Guedes.",
+  ctaLabel: "Conhecer o Na Brasa",
   active: true,
 };

@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import {
   ScrollView,
@@ -186,8 +187,13 @@ export default function Index() {
         <View style={styles.footer}>
           <View style={styles.footerContent}>
             <View style={styles.footerBrandGroup}>
-              <View style={styles.footerMark}>
-                <Text style={styles.footerMarkText}>NB</Text>
+              <View style={styles.brandMark}>
+                <MaterialCommunityIcons
+                  name="hamburger"
+                  size={24}
+                  color={colors.white}
+                  style={styles.brandIcon}
+                />
               </View>
               <View>
                 <Text style={styles.footerBrand}>NA BRASA</Text>
@@ -222,6 +228,21 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "hidden",
     backgroundColor: colors.paper,
+  },
+  brandIcon: {
+    // Compensa a rotação de -6 graus aplicada ao círculo.
+    transform: [{ rotate: "6deg" }],
+  },
+  brandMark: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.ember,
+    borderWidth: 2,
+    borderColor: colors.emberStrong,
+    transform: [{ rotate: "-6deg" }],
   },
   paperWatermark: {
     position: "absolute",
