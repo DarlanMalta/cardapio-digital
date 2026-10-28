@@ -115,6 +115,12 @@ export default function Index() {
     setSelectedProduct(products[nextIndex]);
   };
 
+  const selectedProductCategoryIndex = selectedProduct
+    ? products
+        .filter((product) => product.category === selectedProduct.category)
+        .findIndex((product) => product.id === selectedProduct.id) + 1
+    : 1;
+
   return (
     <>
       <ScrollView
@@ -206,6 +212,7 @@ export default function Index() {
 
       <ProductDetailsModal
         product={selectedProduct}
+        productIndex={selectedProductCategoryIndex}
         visible={selectedProduct !== null}
         onClose={() => setSelectedProduct(null)}
         onPrevious={() => showAdjacentProduct(-1)}

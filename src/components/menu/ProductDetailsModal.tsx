@@ -19,6 +19,7 @@ import IngredientChip from "./IngredientChip";
 
 type Props = {
   product: ProductType | null;
+  productIndex?: number;
   visible: boolean;
   onClose: () => void;
   onPrevious: () => void;
@@ -27,6 +28,7 @@ type Props = {
 
 export default function ProductDetailsModal({
   product,
+  productIndex = 1,
   visible,
   onClose,
   onPrevious,
@@ -93,7 +95,9 @@ export default function ProductDetailsModal({
             ]}
           >
             <View style={[styles.visual, isMobile && styles.visualMobile]}>
-              <Text style={styles.visualNumber}>01</Text>
+              <Text style={styles.visualNumber}>
+                {String(productIndex).padStart(2, "0")}
+              </Text>
               <Image
                 source={product.image}
                 style={styles.image}

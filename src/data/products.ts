@@ -1,9 +1,29 @@
 import type { ImageSourcePropType } from "react-native";
 
-import sideImage from "../../assets/images/Acompanhamentos.jpg";
-import drinkImage from "../../assets/images/Bebidas.png";
-import burgerImage from "../../assets/images/Xburguer.png";
-
+import acompanhamentos from "../../assets/images/Acompanhamentos.jpg";
+import batatacompleta from "../../assets/images/batatacompleta.jpeg";
+import brasaguete from "../../assets/images/brasaguete.jpeg";
+import caribe from "../../assets/images/caribe.jpeg";
+import cocalata from "../../assets/images/cocalata.jpeg";
+import cocalatazero from "../../assets/images/cocalatazero.jpeg";
+import cocalitro from "../../assets/images/cocalitro.jpeg";
+import cocalitrozero from "../../assets/images/cocalitrozero.jpeg";
+import comboCuiudu from "../../assets/images/combo-cuiudu.jpeg";
+import comboRomeuJulieta from "../../assets/images/combo-romeuejulieta.jpeg";
+import cuiudu from "../../assets/images/cuiudu.jpeg";
+import cuiudutriplo from "../../assets/images/cuiudutriplo.jpeg";
+import guaranalata from "../../assets/images/guaranalata.jpeg";
+import guaranalatazero from "../../assets/images/guaranalatazero.jpeg";
+import guaranalitro from "../../assets/images/guaranalitro.jpeg";
+import nabrasaCheese from "../../assets/images/nabrasacheese.jpeg";
+import nabrasaPig from "../../assets/images/nabrasapig.jpeg";
+import nabrasaRings from "../../assets/images/nabrasarings.jpeg";
+import primeSalad from "../../assets/images/primesalad.jpeg";
+import shakeAcai from "../../assets/images/shakeacai.jpeg";
+import sucoMorango from "../../assets/images/sucomorango.jpeg";
+import sucoMorangoLeite from "../../assets/images/sucomorangocleite.jpeg";
+import supremoCheese from "../../assets/images/supremocheese.jpeg";
+import burguerpng from "../../assets/images/Xburguer.png";
 export const categoryIds = ["burger", "combos", "batatas", "bebidas"] as const;
 
 export type CategoryId = (typeof categoryIds)[number];
@@ -68,7 +88,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 24.99,
-    image: burgerImage,
+    image: nabrasaPig,
     category: "burger",
   },
   {
@@ -85,7 +105,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 31.99,
-    image: burgerImage,
+    image: supremoCheese,
     category: "burger",
   },
   {
@@ -102,7 +122,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 22.99,
-    image: burgerImage,
+    image: nabrasaCheese,
     category: "burger",
   },
   {
@@ -120,7 +140,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 37.99,
-    image: burgerImage,
+    image: cuiudutriplo,
     category: "burger",
   },
   {
@@ -138,7 +158,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 22.99,
-    image: burgerImage,
+    image: primeSalad,
     category: "burger",
   },
   {
@@ -156,7 +176,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 29.99,
-    image: burgerImage,
+    image: cuiudu,
     category: "burger",
   },
   {
@@ -173,7 +193,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 22.99,
-    image: burgerImage,
+    image: burguerpng,
     category: "burger",
   },
   {
@@ -190,7 +210,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 24.99,
-    image: burgerImage,
+    image: caribe,
     category: "burger",
   },
   {
@@ -208,7 +228,7 @@ export const products: ProductType[] = [
       "Bacon",
     ],
     price: 18.99,
-    image: burgerImage,
+    image: brasaguete,
     category: "burger",
   },
   {
@@ -225,7 +245,7 @@ export const products: ProductType[] = [
       "Molho Guedes",
     ],
     price: 21.99,
-    image: burgerImage,
+    image: nabrasaRings,
     category: "burger",
   },
   {
@@ -234,7 +254,7 @@ export const products: ProductType[] = [
     description: "Um Cuiudu com batata de 200 gramas, cheddar e bacon.",
     ingredients: ["1 Cuiudu", "Batata frita 200 g", "Cheddar", "Bacon"],
     price: 39.99,
-    image: burgerImage,
+    image: comboCuiudu,
     category: "combos",
   },
   {
@@ -244,7 +264,7 @@ export const products: ProductType[] = [
       "Um Na Brasa, um Na Brasa Cheese e um refrigerante de 1 litro.",
     ingredients: ["1 Na Brasa", "1 Na Brasa Cheese", "Refrigerante 1 litro"],
     price: 49.9,
-    image: burgerImage,
+    image: comboRomeuJulieta,
     category: "combos",
   },
   {
@@ -253,7 +273,7 @@ export const products: ProductType[] = [
     description: "Porção de batata frita simples de 200 gramas.",
     ingredients: ["Batata frita 200 g"],
     price: 16.99,
-    image: sideImage,
+    image: acompanhamentos,
     category: "batatas",
   },
   {
@@ -263,7 +283,7 @@ export const products: ProductType[] = [
       "Porção de batata frita simples de 400 gramas com molho Guedes e molho vermelho.",
     ingredients: ["Batata frita 400 g", "Molho Guedes", "Molho vermelho"],
     price: 19.99,
-    image: sideImage,
+    image: acompanhamentos,
     category: "batatas",
   },
   {
@@ -279,7 +299,7 @@ export const products: ProductType[] = [
       "Molho vermelho",
     ],
     price: 19.99,
-    image: sideImage,
+    image: batatacompleta,
     category: "batatas",
   },
   {
@@ -295,7 +315,7 @@ export const products: ProductType[] = [
       "Molho vermelho",
     ],
     price: 24.99,
-    image: sideImage,
+    image: batatacompleta,
     category: "batatas",
   },
   {
@@ -304,7 +324,7 @@ export const products: ProductType[] = [
     description: "Coca-Cola em lata.",
     ingredients: ["Lata"],
     price: 6,
-    image: drinkImage,
+    image: cocalata,
     category: "bebidas",
   },
   {
@@ -313,7 +333,7 @@ export const products: ProductType[] = [
     description: "Coca-Cola Zero em lata.",
     ingredients: ["Lata", "Zero açúcar"],
     price: 6,
-    image: drinkImage,
+    image: cocalatazero,
     category: "bebidas",
   },
   {
@@ -322,7 +342,7 @@ export const products: ProductType[] = [
     description: "Guaraná em lata.",
     ingredients: ["Lata"],
     price: 6,
-    image: drinkImage,
+    image: guaranalata,
     category: "bebidas",
   },
   {
@@ -331,7 +351,7 @@ export const products: ProductType[] = [
     description: "Guaraná Zero em lata.",
     ingredients: ["Lata", "Zero açúcar"],
     price: 6,
-    image: drinkImage,
+    image: guaranalatazero,
     category: "bebidas",
   },
   {
@@ -340,7 +360,7 @@ export const products: ProductType[] = [
     description: "Coca-Cola Zero de 1 litro.",
     ingredients: ["1 litro", "Zero açúcar"],
     price: 9.99,
-    image: drinkImage,
+    image: cocalitrozero,
     category: "bebidas",
   },
   {
@@ -349,7 +369,7 @@ export const products: ProductType[] = [
     description: "Coca-Cola de 1 litro.",
     ingredients: ["1 litro"],
     price: 9.99,
-    image: drinkImage,
+    image: cocalitro,
     category: "bebidas",
   },
   {
@@ -358,7 +378,7 @@ export const products: ProductType[] = [
     description: "Guaraná de 1 litro.",
     ingredients: ["1 litro"],
     price: 9.99,
-    image: drinkImage,
+    image: guaranalitro,
     category: "bebidas",
   },
   {
@@ -367,7 +387,7 @@ export const products: ProductType[] = [
     description: "Shake de açaí da Na Brasa.",
     ingredients: ["Açaí"],
     price: 14.99,
-    image: drinkImage,
+    image: shakeAcai,
     category: "bebidas",
   },
   {
@@ -376,7 +396,7 @@ export const products: ProductType[] = [
     description: "Suco de morango preparado com leite.",
     ingredients: ["Morango", "Leite"],
     price: 14.99,
-    image: drinkImage,
+    image: sucoMorangoLeite,
     category: "bebidas",
   },
   {
@@ -385,7 +405,7 @@ export const products: ProductType[] = [
     description: "Suco de morango.",
     ingredients: ["Morango"],
     price: 11.99,
-    image: drinkImage,
+    image: sucoMorango,
     category: "bebidas",
   },
 ];
