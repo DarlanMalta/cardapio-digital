@@ -282,7 +282,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.paper,
   },
   brandIcon: {
-    // Compensa a rotação de -6 graus aplicada ao círculo.
     transform: [{ rotate: "6deg" }],
   },
   brandMark: {
@@ -371,23 +370,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 11,
-  },
-  footerMark: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.ember,
-    transform: [{ rotate: "-5deg" }],
-  },
-  footerMarkText: {
-    color: colors.white,
-    fontFamily: typography.display,
-    fontSize: 12,
-    lineHeight: 15,
-    fontWeight: "900",
-    letterSpacing: -0.8,
   },
   footerBrand: {
     color: colors.text,

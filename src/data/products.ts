@@ -26,6 +26,10 @@ import supremoCheese from "../../assets/images/supremocheese.jpeg";
 import burguerpng from "../../assets/images/Xburguer.png";
 export const categoryIds = ["burger", "combos", "batatas", "bebidas"] as const;
 
+export function isCoverImageCategory(categoryId: CategoryId): boolean {
+  return !["burger", "combos"].includes(categoryId);
+}
+
 export type CategoryId = (typeof categoryIds)[number];
 export type CategoryVariant = "paper" | "dark" | "compact";
 

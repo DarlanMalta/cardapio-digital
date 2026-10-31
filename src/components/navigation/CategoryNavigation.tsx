@@ -10,13 +10,10 @@ import {
   useWindowDimensions,
   View,
   type LayoutChangeEvent,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
 } from "react-native";
-
 import type { CategoryId, CategoryType } from "../../data/products";
-import { colors, layout, radius, typography } from "../../theme";
-
+import { breakpoints, colors, layout, radius, typography } from "../../theme";
+import { formatIndex } from "../../utils/formatIndex";
 type CategoryLayout = {
   width: number;
 };
@@ -37,12 +34,12 @@ export default function CategoryNavigation({
   onLayout,
 }: Props) {
   const { width } = useWindowDimensions();
-  const isDesktop = width >= 760;
+  const isDesktop = width >= breakpoints.mobile;
   const [showRightFade, setShowRightFade] = useState(true);
   const navigationScrollRef = useRef<ScrollView>(null);
-  const categoryLayouts = useRef<
-    Partial<Record<CategoryId, CategoryLayout>>
-  >({});
+  const categoryLayouts = useRef<Partial<Record<CategoryId, CategoryLayout>>>(
+    {},
+  );
   const [navigationWidth, setNavigationWidth] = useState(0);
 
   const centerCategory = useCallback(
@@ -135,7 +132,7 @@ export default function CategoryNavigation({
                 <Text
                   style={[styles.chipIndex, isActive && styles.chipIndexActive]}
                 >
-                  {String(index + 1).padStart(2, "0")}
+                  {formatIndex(index + 1)}
                 </Text>
                 <Text
                   style={[styles.chipText, isActive && styles.chipTextActive]}

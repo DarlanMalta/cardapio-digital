@@ -17,14 +17,4 @@ export const colors = {
   borderPaper: "#CCBCA8",
   white: "#FFFFFF",
   black: "#000000",
-
-  // Aliases mantidos durante a transição dos componentes antigos.
-  background: "#0B0A09",
-  surface: "#171412",
-  surfaceRaised: "#201C19",
-  border: "#302A25",
-  borderWarm: "#5B2C1D",
-  accent: "#FF4B1F",
-  accentStrong: "#FF6A24",
-  accentSoft: "#3A160E",
 } as const;

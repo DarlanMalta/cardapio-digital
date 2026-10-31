@@ -8,8 +8,8 @@ import {
 
 import type { CategoryType, ProductType } from "../../data/products";
 import { colors, radius, spacing, typography } from "../../theme";
+import { formatIndex } from "../../utils/formatIndex";
 import ProductCard from "../ProductCard";
-
 type Props = {
   category: CategoryType;
   categoryIndex: number;
@@ -41,7 +41,7 @@ export default function MenuSection({
         >
           <View style={styles.eyebrowRow}>
             <Text style={styles.sectionIndex}>
-              {String(categoryIndex + 1).padStart(2, "0")}
+              {formatIndex(categoryIndex + 1)}
             </Text>
             <Text style={styles.eyebrow}>{category.eyebrow}</Text>
           </View>

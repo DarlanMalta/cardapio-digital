@@ -11,16 +11,22 @@ import {
 
 import backgroundImage from "../../assets/images/BackGround.png";
 import burgerImage from "../../assets/images/Xburguer.png";
-import { colors, layout, radius, spacing, typography } from "../theme";
-
+import {
+  breakpoints,
+  colors,
+  layout,
+  radius,
+  spacing,
+  typography,
+} from "../theme";
 type Props = {
   onExplore: () => void;
 };
 
 export default function BrandHero({ onExplore }: Props) {
   const { width } = useWindowDimensions();
-  const isMobile = width < 760;
-  const isNarrow = width <= 360;
+  const isMobile = width < breakpoints.mobile;
+  const isNarrow = width <= breakpoints.narrow;
   //TELA INICIAL MENU
   return (
     <ImageBackground

@@ -10,7 +10,7 @@ import {
 
 import type { CampaignType } from "../../data/campaigns";
 import type { ProductType } from "../../data/products";
-import { colors, radius, spacing, typography } from "../../theme";
+import { breakpoints, colors, radius, spacing, typography } from "../../theme";
 import { formatPrice } from "../../utils/formatPrice";
 
 type Props = {
@@ -25,9 +25,8 @@ export default function FeaturedCampaign({
   onSelectProduct,
 }: Props) {
   const { width } = useWindowDimensions();
-  const isMobile = width < 720;
-  const isNarrow = width <= 360;
-
+  const isMobile = width < breakpoints.mobile;
+  const isNarrow = width <= breakpoints.narrow;
   if (!campaign.active) {
     return null;
   }
@@ -83,10 +82,7 @@ export default function FeaturedCampaign({
 
           <View style={[styles.action, isNarrow && styles.actionNarrow]}>
             <Text
-              style={[
-                styles.actionText,
-                isNarrow && styles.actionTextNarrow,
-              ]}
+              style={[styles.actionText, isNarrow && styles.actionTextNarrow]}
             >
               {campaign.ctaLabel}
             </Text>

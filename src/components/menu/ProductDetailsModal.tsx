@@ -11,12 +11,11 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-
-import type { ProductType } from "../../data/products";
-import { colors, radius, spacing, typography } from "../../theme";
+import { isCoverImageCategory, type ProductType } from "../../data/products";
+import { breakpoints, colors, radius, spacing, typography } from "../../theme";
+import { formatIndex } from "../../utils/formatIndex";
 import { formatPrice } from "../../utils/formatPrice";
 import IngredientChip from "./IngredientChip";
-
 type Props = {
   product: ProductType | null;
   productIndex?: number;
@@ -37,14 +36,14 @@ export default function ProductDetailsModal({
   onNext,
 }: Props) {
   const { width, height } = useWindowDimensions();
-  const isMobile = width < 760;
-  const isNarrow = width <= 360;
+  const isMobile = width < breakpoints.mobile;
+  const isNarrow = width <= breakpoints.narrow;
 
   if (!product) {
     return null;
   }
 
-  const useCoverImage = !["burger", "combos"].includes(product.category);
+  const useCoverImage = isCoverImageCategory(product.category);
   const showIngredients = product.category !== "bebidas";
 
   return (
@@ -105,7 +104,7 @@ export default function ProductDetailsModal({
           >
             <View style={[styles.visual, isMobile && styles.visualMobile]}>
               <Text style={styles.visualNumber}>
-                {String(productIndex).padStart(2, "0")}
+                {formatIndex(productIndex)}
               </Text>
               <Image
                 source={product.image}

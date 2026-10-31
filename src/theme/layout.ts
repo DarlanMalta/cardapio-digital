@@ -1,3 +1,9 @@
+export const breakpoints = {
+  narrow: 360,
+  cardCompact: 560,
+  mobile: 760,
+} as const;
+
 export const layout = {
   contentMaxWidth: 1180,
   readingMaxWidth: 640,

@@ -6,11 +6,10 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-
-import type { ProductType } from "../data/products";
-import { colors, radius, spacing, typography } from "../theme";
+import { isCoverImageCategory, type ProductType } from "../data/products";
+import { breakpoints, colors, radius, spacing, typography } from "../theme";
+import { formatIndex } from "../utils/formatIndex";
 import PriceBadge from "./menu/PriceBadge";
-
 type Props = {
   product: ProductType;
   productIndex: number;
@@ -19,9 +18,9 @@ type Props = {
 
 export default function ProductCard({ product, productIndex, onPress }: Props) {
   const { width } = useWindowDimensions();
-  const isMobile = width < 560;
-  const isNarrow = width <= 360;
-  const useCoverImage = !["burger", "combos"].includes(product.category);
+  const isMobile = width < breakpoints.cardCompact;
+  const isNarrow = width <= breakpoints.narrow;
+  const useCoverImage = isCoverImageCategory(product.category);
   const showDescription = product.category !== "bebidas";
 
   return (
@@ -39,9 +38,7 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
           isNarrow && styles.visualNarrow,
         ]}
       >
-        <Text style={styles.watermark}>
-          {String(productIndex + 1).padStart(2, "0")}
-        </Text>
+        <Text style={styles.watermark}>{formatIndex(productIndex + 1)}</Text>
 
         <Image
           source={product.image}
@@ -58,9 +55,7 @@ export default function ProductCard({ product, productIndex, onPress }: Props) {
 
       <View style={[styles.info, isNarrow && styles.infoNarrow]}>
         <View style={styles.headingRow}>
-          <Text style={styles.index}>
-            #{String(productIndex + 1).padStart(2, "0")}
-          </Text>
+          <Text style={styles.index}>#{formatIndex(productIndex + 1)}</Text>
           <View style={styles.headingLine} />
         </View>
 
