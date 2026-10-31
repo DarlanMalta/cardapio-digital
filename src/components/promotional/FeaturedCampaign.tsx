@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Image,
   Pressable,
@@ -52,7 +53,12 @@ export default function FeaturedCampaign({
         ]}
       >
         <View style={styles.badge}>
-          <View style={styles.badgeRule} />
+          <MaterialCommunityIcons
+            name="fire"
+            size={16}
+            color={colors.ember}
+            style={styles.badgeIcon}
+          />
           <Text style={styles.badgeText}>{campaign.badge}</Text>
         </View>
 
@@ -67,11 +73,23 @@ export default function FeaturedCampaign({
         </Text>
         <Text style={styles.description}>{campaign.description}</Text>
 
-        <View style={[styles.footer, isNarrow && styles.footerNarrow]}>
-          <Text style={styles.price}>{formatPrice(product.price)}</Text>
+        <View style={styles.footer}>
+          <View style={styles.priceContainer}>
+            <Text style={styles.priceLabel}>APENAS</Text>
+            <Text style={[styles.price, isNarrow && styles.priceNarrow]}>
+              {formatPrice(product.price)}
+            </Text>
+          </View>
 
           <View style={[styles.action, isNarrow && styles.actionNarrow]}>
-            <Text style={styles.actionText}>{campaign.ctaLabel}</Text>
+            <Text
+              style={[
+                styles.actionText,
+                isNarrow && styles.actionTextNarrow,
+              ]}
+            >
+              {campaign.ctaLabel}
+            </Text>
             <Text style={styles.actionArrow}>→</Text>
           </View>
         </View>
@@ -128,30 +146,34 @@ const styles = StyleSheet.create({
   },
   copyMobile: {
     width: "100%",
-    padding: spacing.lg,
+    padding: spacing.md,
   },
   copyNarrow: {
     minWidth: 0,
-    padding: spacing.md,
+    padding: spacing.sm,
   },
   badge: {
     alignSelf: "flex-start",
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 6,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "rgba(255, 75, 31, 0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 75, 31, 0.28)",
+    borderRadius: radius.pill,
   },
-  badgeRule: {
-    width: 28,
-    height: 3,
-    backgroundColor: colors.ember,
+  badgeIcon: {
+    marginTop: -1,
   },
   badgeText: {
-    color: colors.textMuted,
+    color: colors.emberStrong,
     fontFamily: typography.body,
     fontSize: 10,
     lineHeight: 13,
     fontWeight: "900",
-    letterSpacing: 1.5,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
   },
   title: {
@@ -166,56 +188,72 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   titleMobile: {
-    fontSize: 36,
-    lineHeight: 39,
+    fontSize: 32,
+    lineHeight: 35,
+    marginTop: 14,
   },
   titleNarrow: {
-    fontSize: 31,
-    lineHeight: 34,
+    fontSize: 28,
+    lineHeight: 31,
     letterSpacing: -1.2,
   },
   description: {
     maxWidth: 400,
-    marginTop: 12,
+    marginTop: 10,
     color: colors.textMuted,
     fontFamily: typography.body,
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: 14,
+    lineHeight: 20,
   },
   footer: {
+    width: "100%",
     flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "space-between",
-    gap: 16,
-    marginTop: 24,
-    paddingTop: 20,
+    gap: 12,
+    marginTop: 18,
+    paddingTop: 14,
     borderTopWidth: 1,
     borderTopColor: colors.borderDark,
   },
-  footerNarrow: {
-    alignItems: "stretch",
+  priceContainer: {
+    justifyContent: "center",
+  },
+  priceLabel: {
+    color: colors.textMuted,
+    fontFamily: typography.body,
+    fontSize: 9,
+    lineHeight: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
   },
   price: {
     color: colors.emberStrong,
     fontFamily: typography.display,
-    fontSize: 29,
-    lineHeight: 33,
+    fontSize: 27,
+    lineHeight: 31,
     fontWeight: "900",
   },
+  priceNarrow: {
+    fontSize: 22,
+    lineHeight: 26,
+  },
   action: {
-    minHeight: 43,
+    minHeight: 40,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
-    paddingVertical: 11,
-    paddingHorizontal: 16,
+    gap: 8,
+    paddingVertical: 9,
+    paddingHorizontal: 15,
     borderRadius: radius.pill,
     backgroundColor: colors.ember,
+    flexShrink: 0,
   },
   actionNarrow: {
-    width: "100%",
+    paddingHorizontal: 11,
+    gap: 6,
   },
   actionText: {
     color: colors.white,
@@ -225,6 +263,10 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 0.8,
     textTransform: "uppercase",
+  },
+  actionTextNarrow: {
+    fontSize: 9,
+    letterSpacing: 0.5,
   },
   actionArrow: {
     color: colors.white,
@@ -244,7 +286,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.inkSoft,
   },
   visualMobile: {
-    minHeight: 235,
+    minHeight: 220,
+    height: 220,
     borderLeftWidth: 0,
     borderTopWidth: 1,
     borderTopColor: colors.borderDark,

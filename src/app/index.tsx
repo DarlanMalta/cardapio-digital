@@ -1,6 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import {
+  Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -32,6 +34,8 @@ export default function Index() {
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null,
   );
+  const [isFeaturedSelected, setIsFeaturedSelected] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const menuScrollRef = useRef<ScrollView>(null);
   const menuListPosition = useRef(0);
   const categoryNavigationHeight = useRef(0);
@@ -46,6 +50,13 @@ export default function Index() {
         0,
         menuListPosition.current - categoryNavigationHeight.current,
       ),
+      animated: true,
+    });
+  };
+
+  const scrollToTop = () => {
+    menuScrollRef.current?.scrollTo({
+      y: 0,
       animated: true,
     });
   };
@@ -74,6 +85,12 @@ export default function Index() {
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+
+    const shouldShowScrollTop = contentOffset.y > 450;
+    if (shouldShowScrollTop !== showScrollTop) {
+      setShowScrollTop(shouldShowScrollTop);
+    }
+
     const reachedEnd =
       contentOffset.y + layoutMeasurement.height >= contentSize.height - 16;
 
@@ -164,7 +181,10 @@ export default function Index() {
               <FeaturedCampaign
                 campaign={featuredCampaign}
                 product={featuredProduct}
-                onSelectProduct={setSelectedProduct}
+                onSelectProduct={(product) => {
+                  setIsFeaturedSelected(true);
+                  setSelectedProduct(product);
+                }}
               />
             ) : null}
 
@@ -179,7 +199,10 @@ export default function Index() {
                   category={category}
                   categoryIndex={categoryIndex}
                   products={categoryProducts}
-                  onSelectProduct={setSelectedProduct}
+                  onSelectProduct={(product) => {
+                    setIsFeaturedSelected(false);
+                    setSelectedProduct(product);
+                  }}
                   onLayout={(event) => {
                     categoryPositions.current[category.id] =
                       event.nativeEvent.layout.y;
@@ -213,11 +236,33 @@ export default function Index() {
       <ProductDetailsModal
         product={selectedProduct}
         productIndex={selectedProductCategoryIndex}
+        showNavigation={!isFeaturedSelected}
         visible={selectedProduct !== null}
-        onClose={() => setSelectedProduct(null)}
+        onClose={() => {
+          setSelectedProduct(null);
+          setIsFeaturedSelected(false);
+        }}
         onPrevious={() => showAdjacentProduct(-1)}
         onNext={() => showAdjacentProduct(1)}
       />
+
+      {showScrollTop && (
+        <Pressable
+          onPress={scrollToTop}
+          accessibilityRole="button"
+          accessibilityLabel="Voltar ao início do cardápio"
+          style={({ pressed }) => [
+            styles.scrollTopButton,
+            pressed && styles.scrollTopButtonPressed,
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="arrow-up"
+            size={20}
+            color={colors.white}
+          />
+        </Pressable>
+      )}
     </>
   );
 }
@@ -360,5 +405,37 @@ const styles = StyleSheet.create({
     lineHeight: 12,
     fontWeight: "900",
     letterSpacing: 1.6,
+  },
+  scrollTopButton: {
+    position: "absolute",
+    bottom: 24,
+    right: 20,
+    zIndex: 25,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "rgba(23, 20, 18, 0.88)",
+    borderWidth: 1,
+    borderColor: colors.borderDark,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 6,
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        cursor: "pointer",
+        userSelect: "none",
+      } as Record<string, string>,
+    }),
+  },
+  scrollTopButtonPressed: {
+    opacity: 0.75,
+    transform: [{ scale: 0.94 }],
+    backgroundColor: colors.ember,
   },
 });

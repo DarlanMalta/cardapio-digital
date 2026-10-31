@@ -20,6 +20,7 @@ import IngredientChip from "./IngredientChip";
 type Props = {
   product: ProductType | null;
   productIndex?: number;
+  showNavigation?: boolean;
   visible: boolean;
   onClose: () => void;
   onPrevious: () => void;
@@ -29,6 +30,7 @@ type Props = {
 export default function ProductDetailsModal({
   product,
   productIndex = 1,
+  showNavigation = true,
   visible,
   onClose,
   onPrevious,
@@ -71,8 +73,15 @@ export default function ProductDetailsModal({
             { maxHeight: isMobile ? height * 0.92 : height * 0.88 },
           ]}
         >
+          {isMobile && (
+            <View style={styles.handleContainer} pointerEvents="none">
+              <View style={styles.handleBar} />
+            </View>
+          )}
+
           <Pressable
             onPress={onClose}
+            hitSlop={12}
             accessibilityRole="button"
             accessibilityLabel="Fechar"
             style={({ pressed }) => [
@@ -130,42 +139,44 @@ export default function ProductDetailsModal({
                 </>
               )}
 
-              <View style={styles.navigation}>
-                <Pressable
-                  onPress={onPrevious}
-                  accessibilityRole="button"
-                  accessibilityLabel="Produto anterior"
-                  style={({ pressed }) => [
-                    styles.navigationButton,
-                    pressed && styles.buttonPressed,
-                  ]}
-                >
-                  <MaterialCommunityIcons
-                    name="arrow-left"
-                    size={18}
-                    color={colors.textOnPaper}
-                  />
-                  <Text style={styles.navigationText}>ANTERIOR</Text>
-                </Pressable>
+              {showNavigation && (
+                <View style={styles.navigation}>
+                  <Pressable
+                    onPress={onPrevious}
+                    accessibilityRole="button"
+                    accessibilityLabel="Produto anterior"
+                    style={({ pressed }) => [
+                      styles.navigationButton,
+                      pressed && styles.buttonPressed,
+                    ]}
+                  >
+                    <MaterialCommunityIcons
+                      name="arrow-left"
+                      size={18}
+                      color={colors.textOnPaper}
+                    />
+                    <Text style={styles.navigationText}>ANTERIOR</Text>
+                  </Pressable>
 
-                <Pressable
-                  onPress={onNext}
-                  accessibilityRole="button"
-                  accessibilityLabel="Próximo produto"
-                  style={({ pressed }) => [
-                    styles.navigationButton,
-                    styles.navigationButtonPrimary,
-                    pressed && styles.buttonPressed,
-                  ]}
-                >
-                  <Text style={styles.navigationTextPrimary}>PRÓXIMO</Text>
-                  <MaterialCommunityIcons
-                    name="arrow-right"
-                    size={18}
-                    color={colors.white}
-                  />
-                </Pressable>
-              </View>
+                  <Pressable
+                    onPress={onNext}
+                    accessibilityRole="button"
+                    accessibilityLabel="Próximo produto"
+                    style={({ pressed }) => [
+                      styles.navigationButton,
+                      styles.navigationButtonPrimary,
+                      pressed && styles.buttonPressed,
+                    ]}
+                  >
+                    <Text style={styles.navigationTextPrimary}>PRÓXIMO</Text>
+                    <MaterialCommunityIcons
+                      name="arrow-right"
+                      size={18}
+                      color={colors.white}
+                    />
+                  </Pressable>
+                </View>
+              )}
             </View>
           </ScrollView>
         </View>
@@ -203,6 +214,20 @@ const styles = StyleSheet.create({
   dialogMobile: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
+  },
+  handleContainer: {
+    position: "absolute",
+    top: 10,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    zIndex: 9,
+  },
+  handleBar: {
+    width: 44,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "rgba(26, 21, 17, 0.28)",
   },
   closeButton: {
     position: "absolute",

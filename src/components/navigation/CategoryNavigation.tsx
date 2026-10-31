@@ -2,12 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
   type LayoutChangeEvent,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
 } from "react-native";
 
 import type { CategoryId, CategoryType } from "../../data/products";
@@ -32,6 +36,9 @@ export default function CategoryNavigation({
   onSelectCategory,
   onLayout,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 760;
+  const [showRightFade, setShowRightFade] = useState(true);
   const navigationScrollRef = useRef<ScrollView>(null);
   const categoryLayouts = useRef<
     Partial<Record<CategoryId, CategoryLayout>>
@@ -82,10 +89,24 @@ export default function CategoryNavigation({
           ref={navigationScrollRef}
           horizontal
           showsHorizontalScrollIndicator={false}
+          onScroll={(event) => {
+            const { contentOffset, contentSize, layoutMeasurement } =
+              event.nativeEvent;
+            const reachedEnd =
+              contentOffset.x + layoutMeasurement.width >=
+              contentSize.width - 15;
+            if (showRightFade === reachedEnd) {
+              setShowRightFade(!reachedEnd);
+            }
+          }}
+          scrollEventThrottle={16}
           onLayout={(event) => {
             setNavigationWidth(event.nativeEvent.layout.width);
           }}
-          contentContainerStyle={styles.content}
+          contentContainerStyle={[
+            styles.content,
+            isDesktop && styles.contentCentered,
+          ]}
         >
           {categories.map((category, index) => {
             const isActive = activeCategory === category.id;
@@ -125,6 +146,10 @@ export default function CategoryNavigation({
             );
           })}
         </ScrollView>
+
+        {!isDesktop && showRightFade && (
+          <View style={styles.fadeRight} pointerEvents="none" />
+        )}
       </View>
     </View>
   );
@@ -134,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     zIndex: 20,
-    backgroundColor: "rgba(11, 10, 9, 0.97)",
+    backgroundColor: "rgba(11, 10, 9, 0.82)",
     borderBottomWidth: 1,
     borderBottomColor: colors.borderDark,
     shadowColor: colors.black,
@@ -142,6 +167,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 15,
     elevation: 8,
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+      } as Record<string, string>,
+    }),
   },
   frame: {
     width: "100%",
@@ -150,6 +181,22 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
+    position: "relative",
+  },
+  fadeRight: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 34,
+    zIndex: 10,
+    ...Platform.select({
+      web: {
+        background:
+          "linear-gradient(to right, rgba(11, 10, 9, 0) 0%, rgba(11, 10, 9, 0.95) 100%)",
+        pointerEvents: "none",
+      } as Record<string, string>,
+    }),
   },
   content: {
     flexGrow: 1,
@@ -158,6 +205,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: layout.horizontalPadding,
     paddingVertical: 12,
     gap: CATEGORY_GAP,
+  },
+  contentCentered: {
+    justifyContent: "center",
   },
   chip: {
     minHeight: 43,
