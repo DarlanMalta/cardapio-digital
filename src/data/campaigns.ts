@@ -9,10 +9,11 @@ export type CampaignType = {
 
 export const featuredCampaign: CampaignType = {
   id: "signature-na-brasa",
-  productId: 8,
+  productId: 3,
   badge: "Destaque da casa",
   description:
-    "Pão de brioche, burguer de 150 gramas, queijo muçarela, cream cheese, abacaxi caramelizado e molho Guedes.",
-  ctaLabel: "Conhecer o Na Brasa",
+    "Pão brioche, burguer 145 gramas, cream cheese, bacon, cebola caramelizada e molho Guedes.",
+
+  ctaLabel: "Conhecer o Cheese",
   active: true,
 };
