@@ -16,6 +16,7 @@ import MenuSection from "../components/menu/MenuSection";
 import ProductDetailsModal from "../components/menu/ProductDetailsModal";
 import CategoryNavigation from "../components/navigation/CategoryNavigation";
 import FeaturedCampaign from "../components/promotional/FeaturedCampaign";
+import { TableInfoFooter } from "../components/TableInfoFooter";
 import { featuredCampaign } from "../data/campaigns";
 import {
   categories,
@@ -210,25 +211,8 @@ export default function Index() {
                 />
               );
             })}
-          </View>
-        </View>
 
-        <View style={styles.footer}>
-          <View style={styles.footerContent}>
-            <View style={styles.footerBrandGroup}>
-              <View style={styles.brandMark}>
-                <MaterialCommunityIcons
-                  name="hamburger"
-                  size={24}
-                  color={colors.white}
-                  style={styles.brandIcon}
-                />
-              </View>
-              <View>
-                <Text style={styles.footerBrand}>NA BRASA</Text>
-                <Text style={styles.footerSlogan}>O 01 DA CITY</Text>
-              </View>
-            </View>
+            <TableInfoFooter />
           </View>
         </View>
       </ScrollView>
@@ -281,20 +265,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: colors.paper,
   },
-  brandIcon: {
-    transform: [{ rotate: "6deg" }],
-  },
-  brandMark: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.ember,
-    borderWidth: 2,
-    borderColor: colors.emberStrong,
-    transform: [{ rotate: "-6deg" }],
-  },
   paperWatermark: {
     position: "absolute",
     top: -55,
@@ -313,7 +283,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingTop: 70,
     paddingHorizontal: layout.horizontalPadding,
-    paddingBottom: 26,
+    paddingBottom: 64,
   },
   menuIntroduction: {
     width: "100%",
@@ -347,46 +317,6 @@ const styles = StyleSheet.create({
     letterSpacing: -1.9,
     textAlign: "center",
     textTransform: "uppercase",
-  },
-  footer: {
-    width: "100%",
-    backgroundColor: colors.ink,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderDark,
-  },
-  footerContent: {
-    width: "100%",
-    maxWidth: layout.contentMaxWidth,
-    alignSelf: "center",
-    paddingVertical: 40,
-    paddingHorizontal: layout.horizontalPadding,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-  },
-  footerBrandGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 11,
-  },
-  footerBrand: {
-    color: colors.text,
-    fontFamily: typography.display,
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: "900",
-    letterSpacing: 2.1,
-  },
-  footerSlogan: {
-    marginTop: 3,
-    color: colors.emberStrong,
-    fontFamily: typography.body,
-    fontSize: 9,
-    lineHeight: 12,
-    fontWeight: "900",
-    letterSpacing: 1.6,
   },
   scrollTopButton: {
     position: "absolute",
